@@ -5,6 +5,6 @@ from django.urls import path
 from pages import views
 
 urlpatterns = [
-    path('about/', views.aboutView),
-    path('', views.index),
+    path('', views.homePageView, name='home'),
+    path('about/', views.aboutPageView, name ='about'),
 ]
