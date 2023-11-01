@@ -1,12 +1,12 @@
 from django.db import models
-from datetime import date
+
 
 class Owner(models.Model):
     first_name = models.CharField(max_length=50, verbose_name='Имя', null=True)
     last_name = models.CharField(max_length=50, verbose_name='Фамилия', null=True)
     father_name = models.CharField(max_length=50, verbose_name='Отчество', blank=True, null=True)
     gender = models.CharField(max_length=50, verbose_name='Гендер', null=True)
-    email = models.CharField(max_length=255, verbose_name='Электронная почта', blank=True, null=True, unique=True)
+    email = models.EmailField(verbose_name='Электронная почта', blank=True, null=True, unique=True)
     phone = models.CharField(max_length=20, verbose_name='Телефон', null=True)
     birth_date = models.DateField(verbose_name='Дата рождения', blank=True, null=True)
 
@@ -28,7 +28,7 @@ class Veterinarian(models.Model):
     last_name = models.CharField(max_length=50, verbose_name='Фамилия', null=True)
     father_name = models.CharField(max_length=50, verbose_name='Отчество', blank=True, null=True)
     gender = models.CharField(max_length=50, verbose_name='Гендер', null=True)
-    email = models.CharField(max_length=255, verbose_name='Электронная почта', null=True, unique=True)
+    email = models.EmailField(verbose_name='Электронная почта', null=True, unique=True)
     birth_date = models.DateField(verbose_name='Дата рождения', blank=True, null=True)
     specialization = models.CharField(max_length=100, verbose_name='Специализация', blank=True, null=True)
 
@@ -55,7 +55,7 @@ class Appointment(models.Model):
     pet = models.ForeignKey(Pet, on_delete=models.CASCADE, verbose_name='Питомец', null=True)
     veterinarian = models.ForeignKey(Veterinarian, on_delete=models.CASCADE, verbose_name='Ветеринар', null=True)
     owner = models.ForeignKey(Owner, on_delete=models.CASCADE, verbose_name='Владелец питомца', null=True)
-    date = models.DateTimeField(verbose_name='Дата и время приема', default=date.today, null=True)
+    date = models.DateTimeField(verbose_name='Дата и время приема', null=True)
     notes = models.TextField(verbose_name='Заметки', blank=True, null=True)
 
     def __str__(self):

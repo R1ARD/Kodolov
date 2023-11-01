@@ -5,9 +5,21 @@
     <title>Title</title>
 </head>
 <body>
+
     {% extends 'base.html' %}
     {% block content %}
-    <h1>Homepage</h1>
+
+        <h1>Homepage</h1>
+        {%for Appointment in object_list %}
+            <div class="Appointments-list">
+                <h2>
+                    {{ Appointment.pet }} {{ Appointment.date }} {{ Appointment.veterinarian}}
+                </h2>
+                <p>
+                    {{ Appointment.owner }}
+                </p>
+            </div>
+        {% endfor %}
     {% endblock %}
 </body>
 </html>

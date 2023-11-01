@@ -1,0 +1,6 @@
+.Appointments-list:nth-child(even) {
+    background: #f0f0f0;
+}
+h1 {
+    color: red;
+}
