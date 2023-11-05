@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 
 class Owner(models.Model):
@@ -60,3 +61,6 @@ class Appointment(models.Model):
 
     def __str__(self):
         return f"{self.pet.name} - {self.veterinarian.first_name} {self.veterinarian.last_name} - {self.date}"
+
+    def get_absolute_url(self):
+        return reverse('Appointment_detail', args=[str(self.id)])

@@ -1,10 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
 
     {% extends 'base.html' %}
     {% block content %}
@@ -13,13 +6,15 @@
         {%for Appointment in object_list %}
             <div class="Appointments-list">
                 <h2>
-                    {{ Appointment.pet }} {{ Appointment.date }} {{ Appointment.veterinarian}}
+                    <a href=" {% url 'Appointment_detail' Appointment.pk %}">
+                        {{ Appointment.pet }}
+                        {{ Appointment.date }}
+                        {{ Appointment.veterinarian}}
+                    </a>
                 </h2>
                 <p>
                     {{ Appointment.owner }}
                 </p>
             </div>
         {% endfor %}
-    {% endblock %}
-</body>
-</html>
+    {% endblock content%}
