@@ -63,4 +63,4 @@ class Appointment(models.Model):
         return f"{self.pet.name} - {self.veterinarian.first_name} {self.veterinarian.last_name} - {self.date}"
 
     def get_absolute_url(self):
-        return reverse('Appointment_detail', args=[str(self.id)])
+        return reverse('appointment_detail', args=[str(self.id)])

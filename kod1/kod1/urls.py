@@ -7,7 +7,8 @@ from pages import views
 urlpatterns = [
     path('admin/', admin.site.urls, name='admin'),
     path('', views.AppointmentListView.as_view(), name='home'),
-    path('about/', views.aboutPageView, name ='about'),
-    path('Appointment/<int:pk>/', views.AppointmentDetailView.as_view(), name='Appointment_detail'),
-    path('Appointment/new/', views.AppointmentCreateView.as_view(), name='Appointment_new'),
+    path('about/', views.aboutPageView, name='about'),
+    path('appointment/<int:pk>/', views.AppointmentDetailView.as_view(), name='appointment_detail'),
+    path('appointment/new/', views.AppointmentCreateView.as_view(), name='appointment_new'),
+    path('appointment/<int:pk>/delete', views.AppointmentDeleteView.as_view(), name='appointment_delete'),
 ]

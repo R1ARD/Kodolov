@@ -6,7 +6,7 @@
         {%for Appointment in object_list %}
             <div class="Appointments-list">
                 <h2>
-                    <a href=" {% url 'Appointment_detail' Appointment.pk %}">
+                    <a href=" {% url 'appointment_detail' Appointment.pk %}">
                         {{ Appointment.pet }}
                         {{ Appointment.date }}
                         {{ Appointment.veterinarian}}

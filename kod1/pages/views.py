@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView
 from .models import Appointment
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, DeleteView
+from django.urls import reverse_lazy
 # Create your views here.
 from django.http import HttpResponse
 
@@ -17,9 +18,15 @@ class AppointmentListView(ListView):
 
 class AppointmentDetailView(DetailView):
     model = Appointment
-    template_name = 'Appointment_detail.html'
+    template_name = 'appointment_detail.html'
 
 class AppointmentCreateView(CreateView):
     model = Appointment
-    template_name = 'Appointment_new.html'
+    template_name = 'appointment_new.html'
     fields = '__all__'
+
+class AppointmentDeleteView(DeleteView):
+    model = Appointment
+    template_name = 'appointment_delete.html'
+    success_url = reverse_lazy('home')
+
