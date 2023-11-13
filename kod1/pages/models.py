@@ -1,8 +1,9 @@
 from django.db import models
 from django.urls import reverse
+from django.contrib.auth.models import AbstractUser
 
 
-class Owner(models.Model):
+class Owner(AbstractUser):
     first_name = models.CharField(max_length=50, verbose_name='Имя', null=True)
     last_name = models.CharField(max_length=50, verbose_name='Фамилия', null=True)
     father_name = models.CharField(max_length=50, verbose_name='Отчество', blank=True, null=True)
@@ -13,6 +14,7 @@ class Owner(models.Model):
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
+
 
 class Pet(models.Model):
     name = models.CharField(max_length=50, verbose_name='Имя питомца', null=True)
@@ -47,7 +49,7 @@ class Medicine(models.Model):
 class Disease(models.Model):
     name = models.CharField(max_length=100, verbose_name='Название болезни', null=True)
     description = models.TextField(verbose_name='Описание', blank=True, null=True)
-    medicines = models.ManyToManyField(Medicine, related_name='diseases', blank=True, null=True)
+    medicines = models.OneToOneField(Medicine, related_name='diseases', blank=True, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
