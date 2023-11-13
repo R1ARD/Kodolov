@@ -16,7 +16,7 @@ class Owner(models.Model):
 
 class Pet(models.Model):
     name = models.CharField(max_length=50, verbose_name='Имя питомца', null=True)
-    species = models.CharField(max_length=50, verbose_name='Вид', null=True)
+    species = models.CharField(max_length=50, verbose_name='ид', null=True)
     breed = models.CharField(max_length=50, verbose_name='Порода', blank=True, null=True)
     birth_date = models.DateField(verbose_name='Дата рождения', blank=True, null=True)
     owner = models.ForeignKey(Owner, on_delete=models.CASCADE, verbose_name='Владелец', null=True)
