@@ -16,7 +16,7 @@ from .models import Pet
 class OwnerAdmin(UserAdmin):
     add_form = OwnerCreationForm
     form = OwnerChangeForm
-    list_display = ['username', 'birth_date', 'email']
+    list_display = ['first_name','last_name', 'father_name', 'username', 'birth_date', 'gender', 'phone', 'email']
     model = Owner
 
 admin.site.register(Owner, OwnerAdmin)

@@ -1,6 +1,7 @@
 
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from django.views.generic.base import TemplateView
 
 from pages import views
 
@@ -12,4 +13,7 @@ urlpatterns = [
     path('appointment/new/', views.AppointmentCreateView.as_view(), name='appointment_new'),
     path('appointment/<int:pk>/edit', views.AppointmentUpdateView.as_view(), name='appointment_edit'),
     path('appointment/<int:pk>/delete', views.AppointmentDeleteView.as_view(), name='appointment_delete'),
+    path('pages/', include('pages.urls')),
+    path('pages/', include('django.contrib.auth.urls')),
+
 ]

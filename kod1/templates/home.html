@@ -1,7 +1,17 @@
 
     {% extends 'base.html' %}
-    {% block content %}
 
+    {% block title %}Home{% endblock %}
+
+    {% block content %}
+    {% if user.is_authenticated %}
+        Hi {{ user.username }}!
+        <p><a href="{% url 'logout' %}">logout</a></p>
+    {% else %}
+        <p>yr not logged</p>
+        <a href="{% url 'login' %}">login</a>
+        <a href="{% url 'signup' %}">signup</a>
+    {% endif %}
         <h1>Homepage</h1>
         {%for Appointment in object_list %}
             <div class="Appointments-list">

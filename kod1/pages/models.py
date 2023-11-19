@@ -8,7 +8,6 @@ class Owner(AbstractUser):
     last_name = models.CharField(max_length=50, verbose_name='Фамилия', null=True)
     father_name = models.CharField(max_length=50, verbose_name='Отчество', blank=True, null=True)
     gender = models.CharField(max_length=50, verbose_name='Гендер', null=True)
-    email = models.EmailField(verbose_name='Электронная почта', blank=True, null=True, unique=True)
     phone = models.CharField(max_length=20, verbose_name='Телефон', null=True)
     birth_date = models.DateField(verbose_name='Дата рождения', blank=True, null=True)
 
