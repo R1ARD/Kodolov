@@ -1,22 +1,24 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
-from .forms import OwnerCreationForm, OwnerChangeForm
-from .models import Owner
+#from .forms import OwnerCreationForm, OwnerChangeForm
+
 
 from django.contrib import admin
 from .models import Veterinarian
 from .models import Appointment
 from .models import Medicine
 from .models import Disease
-
+from .models import Owner
 from .models import Pet
 
 # Register your models here.
-class OwnerAdmin(UserAdmin):
-    add_form = OwnerCreationForm
-    form = OwnerChangeForm
-    list_display = ['first_name','last_name', 'father_name', 'username', 'birth_date', 'gender', 'phone', 'email']
-    model = Owner
 
-admin.site.register(Owner, OwnerAdmin)
+
+
+admin.site.register(Owner)
+admin.site.register(Appointment)
+admin.site.register(Pet)
+admin.site.register(Disease)
+admin.site.register(Medicine)
+admin.site.register(Veterinarian)

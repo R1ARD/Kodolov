@@ -2,42 +2,28 @@
 
 {% block title %}Home{% endblock %}
 
-{% block content %}
-<div class="container">
-    <!-- Логотип -->
-    <div class="logo">
-        <!-- Здесь можно добавить изображение логотипа с помощью тега <img> -->
-        <img src="img\logo.png" alt="Логотип Клиники">
-    </div>
-
-    <!-- Блок аутентификации -->
-    <div class="auth-block">
-        {% if user.is_authenticated %}
-            <p>Hi {{ user.username }}!</p>
-            <p><a href="{% url 'logout' %}" class="btn">logout</a></p>
-        {% else %}
-            <p>Вы не вошли в систему</p>
-            <a href="{% url 'login' %}" class="btn">login</a>
-            <a href="{% url 'signup' %}" class="btn">signup</a>
-        {% endif %}
-    </div>
-
-    <!-- Заголовок страницы -->
-    <h1 class="header1">Homepage</h1>
-
-    <!-- Список записей на приём -->
-    {% for Appointment in object_list %}
-        <div class="appointments-list">
-            <h2>
-                <a href="{% url 'appointment_detail' Appointment.pk %}">
-                    {{ Appointment.pet }} {{ Appointment.date }} {{ Appointment.veterinarian}}
-                </a>
-            </h2>
-            <p>{{ Appointment.owner }}</p>
-
-        </div>
-    {% empty %}
-        <p>Записей на прием нет.</p>
-    {% endfor %}
-</div>
-{% endblock content %}
+    {% block content %}
+    {% if user.is_authenticated %}
+        Hi {{ user.username }}!
+        <p><a href="{% url 'logout' %}">logout</a></p>
+    {% else %}
+        <p>yr not logged</p>
+        <a href="{% url 'login' %}">login</a>
+        <a href="{% url 'signup' %}">signup</a>
+    {% endif %}
+        <h1 class="header1">Homepage</h1>
+        {%for Appointment in object_list %}
+            <div class="Appointments-list">
+                <h2>
+                    <a href=" {% url 'appointment_detail' Appointment.pk %}">
+                        {{ Appointment.pet }}
+                        {{ Appointment.date }}
+                        {{ Appointment.veterinarian}}
+                    </a>
+                </h2>
+                <p>
+                    {{ Appointment.owner }}
+                </p>
+            </div>
+        {% endfor %}
+    {% endblock content%}
