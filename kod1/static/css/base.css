@@ -16,19 +16,16 @@ a {
 }
 
 body {
-    font-family: Arial, sans-serif;
+    font-family:Arial, sans-serif ;
     margin: 0;
     padding: 0;
     background: rgb(235, 255, 235);
-    color: #333;
+    color: #4e664f;
 
 }
 
 header {
-    background-color: #d1f1d1;
-    color: white;
     text-align: center;
-    padding: 1em 0;
 }
 
 footer {
@@ -52,7 +49,8 @@ nav {
     background: #a1cba1;
     color: white;
     padding: 10px 0;
-    text-align: center;
+    text-align: left;
+    vertical-align:middle;
     flex-wrap: wrap;
 }
 
@@ -69,13 +67,13 @@ nav ul li {
 nav ul li a {
     color: white;
     text-decoration: none;
+    justify-content: left;
 }
 
 
 .logo {
-    width: 100px;
-    height: 100px;
-    margin: 10px;
+    width: 75px;
+    height: 75px;
 }
 
 /* Стили для форм */
@@ -159,13 +157,12 @@ tr:nth-child(even) {
   nav ul {
     list-style-type: none;
     display: flex;
-    justify-content: center;
-    padding: 20px 0;
+    justify-content: space-evenly;
+    flex-direction: row;
+    align-content: center;
+    align-items: center;
   }
 
-  nav ul li {
-    margin: 0 10px;
-  }
 
   nav ul li a {
     color: #fff;
@@ -188,7 +185,7 @@ tr:nth-child(even) {
     margin-bottom: 30px;
   }
 
-  .btn {
+  .btn, nav ul li a {
     display: inline-block;
     padding: 10px 20px;
     color: #fff;
@@ -282,7 +279,6 @@ tr:nth-child(even) {
 /* Отзывчивый дизайн */
 @media screen and (max-width: 600px) {
     nav ul li {
-        display: block;
         margin: 5px 0;
     }
 

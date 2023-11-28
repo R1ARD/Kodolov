@@ -10,34 +10,35 @@
     <title>VetKod</title>
 </head>
 <body>
-    <div>
+    <header>
         <nav>
-            <a href="{% url 'home' %}">
-                <img class="logo" src="{% static 'image/logo.svg' %}">
-            </a>
             <ul>
+                <li>
+                    <a href="{% url 'home' %}">
+                        <img class="logo" src="{% static 'image/logo.svg' %}">
+                    </a>
+                </li>
+
                 <li>
                     <a href="{% url 'home' %}"></a>
                 </li>
     {% if user.is_authenticated %}
                 <li>
-                    <a href="{% url 'appointment_new' %}">Новая заявка</a>
+                    <a  href="{% url 'appointment_new' %}">Новая заявка</a>
                 </li>
                 <li>
                     <a href="{% url 'logout' %}">Выход</a>
                 </li>
     {% else %}
                 <li>
-                    <a href="{% url 'login' %}">Вход</a>
+                    <a  href="{% url 'login' %}">Вход</a>
                 </li>
                 <li>
                     <a href="{% url 'signup' %}">Регистрация</a>
                 </li>
     {% endif %}
-                </ul>
-        </nav>
         {% block content %}
         {% endblock content %}
-    </div>
+
 </body>
 </html>
