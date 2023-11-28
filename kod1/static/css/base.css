@@ -1,20 +1,31 @@
 .Appointments-list:nth-child(even) {
-    background: #f0f0f0;
+    background: rgb(185, 215, 185);
 }
-h1 {
-    color: green;
+h1, h2, h3 {
+    color: #45a049;
+}
+
+p {
+  color: #4e664f;
+}
+
+a {
+    font-weight: bold;
+    color: rgb(70, 70, 70);
+    text-decoration: none;
 }
 
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background: #f5f5f5;
+    background: rgb(235, 255, 235);
     color: #333;
+
 }
 
 header {
-    background-color: #4CAF50;
+    background-color: #d1f1d1;
     color: white;
     text-align: center;
     padding: 1em 0;
@@ -38,10 +49,11 @@ footer {
 
 /* Навигационное меню */
 nav {
-    background: #333;
+    background: #a1cba1;
     color: white;
     padding: 10px 0;
     text-align: center;
+    flex-wrap: wrap;
 }
 
 nav ul {
@@ -59,36 +71,46 @@ nav ul li a {
     text-decoration: none;
 }
 
+
+.logo {
+    width: 100px;
+    height: 100px;
+    margin: 10px;
+}
+
 /* Стили для форм */
-.form-group {
+form {
     margin-bottom: 15px;
 }
 
-.form-group label {
+label {
+    font-family: Arial, sans-serif;
     display: block;
-    margin-bottom: 5px;
+    margin: 10px 10px 15px 5px;
 }
 
-.form-group input[type="text"],
-.form-group input[type="email"],
-.form-group input[type="date"],
-.form-group input[type="password"] {
-    width: 100%;
+ input[type="text"],
+ input[type="email"],
+ input[type="date"],
+ input[type="password"] {
+    width: 30%;
     padding: 10px;
     border: 1px solid #ddd;
+    margin: 10px;
 }
 
-.form-group input[type="submit"] {
+input[type="submit"], .btn {
     display: block;
-    width: 100%;
     padding: 10px;
     background-color: #4CAF50;
     color: white;
     border: 0;
     cursor: pointer;
+    border-radius: 10px;
+    margin: 10px;
 }
 
-.form-group input[type="submit"]:hover {
+input[type="submit"]:hover, .btn:hover {
     background-color: #45a049;
 }
 
@@ -116,6 +138,146 @@ th {
 tr:nth-child(even) {
     background-color: #f2f2f2;
 }
+
+/* Reset styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  /* Global styles */
+
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  /* Header */
+
+  nav ul {
+    list-style-type: none;
+    display: flex;
+    justify-content: center;
+    padding: 20px 0;
+  }
+
+  nav ul li {
+    margin: 0 10px;
+  }
+
+  nav ul li a {
+    color: #fff;
+    text-decoration: none;
+  }
+
+  /* Home section */
+  #home {
+    text-align: center;
+    padding: 100px 0;
+  }
+
+  #home h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+  }
+
+  #home p {
+    font-size: 18px;
+    margin-bottom: 30px;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 10px 20px;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+  }
+
+  /* Menu section */
+  #menu {
+    padding: 100px 0;
+    background-color: #d1f1d1;
+  }
+
+  #menu h2 {
+    font-size: 30px;
+    margin-bottom: 30px;
+    text-align: center;
+  }
+
+  .menu-items {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .menu-item {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .menu-item img {
+    width: 200px;
+    height: 200px;
+    margin-bottom: 20px;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+
+  .menu-item h3 {
+    font-size: 24px;
+    color: #45a049;
+    margin-bottom: 10px;
+  }
+
+  .menu-item p {
+    font-size: 16px;
+  }
+
+  /* About section */
+  #about {
+    padding: 100px 0;
+    background-color: #ebffeb;
+  }
+
+  #about h2 {
+    font-size: 30px;
+    margin-bottom: 30px;
+    text-align: center;
+  }
+
+  #about p {
+    font-size: 18px;
+    text-align: center;
+  }
+
+  /* Contact section */
+  #contact {
+    padding: 100px 0;
+    text-align: center;
+    background-color: #d1f1d1;
+  }
+
+  #contact h2 {
+    font-size: 30px;
+    margin-bottom: 30px;
+  }
+
+  #contact p {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+
+  /* Footer */
+  footer {
+    background-color: #a1cba1;
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
+  }
+
 
 /* Отзывчивый дизайн */
 @media screen and (max-width: 600px) {

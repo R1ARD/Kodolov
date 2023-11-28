@@ -5,7 +5,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.exceptions import PermissionDenied
 
-from .forms import OwnerCreationForm
+from .forms import CustomUserCreationForm
 from . import models
 # Create your views here.
 from django.http import HttpResponse
@@ -17,7 +17,7 @@ def aboutPageView(request):
     return render(request, "about.html")
 
 class SignUp(CreateView):
-    form_class = OwnerCreationForm
+    form_class = CustomUserCreationForm
     success_url = reverse_lazy('login')
     template_name = 'signup.html'
 
@@ -46,6 +46,12 @@ class AppointmentCreateView(LoginRequiredMixin, CreateView):
     template_name = 'appointment_new.html'
     fields = ['pet', 'veterinarian', 'date', 'notes']
     login_url = 'login'
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['pet'].queryset = models.Pet.objects.filter(owner=self.request.user)
+        return form
+
     def form_valid(self, form):
         form.instance.owner = self.request.user
         return super().form_valid(form)
