@@ -37,6 +37,7 @@ class IsAdminMixin(UserPassesTestMixin):
             raise PermissionDenied
         return True
 
+#Appointment
 class AppointmentListView(LoginRequiredMixin, ListView):
     model = models.Appointment
     template_name = 'appointment_list.html'
@@ -75,3 +76,45 @@ class AppointmentDeleteView(LoginRequiredMixin, IsOwnerOrAdminMixin, DeleteView)
     template_name = 'appointment_delete.html'
     success_url = reverse_lazy('home')
     login_url = 'login'
+
+#Pet
+
+class PetListView(LoginRequiredMixin, IsOwnerOrAdminMixin, ListView):
+    model = models.Pet
+    template_name = 'appointment_list.html'
+    login_url = 'login'
+
+class PetDetailView(LoginRequiredMixin, IsOwnerOrAdminMixin, DetailView):
+    model = models.Pet
+    template_name = 'appointment_detail.html'
+    login_url = 'login'
+
+class PetCreateView(LoginRequiredMixin, IsAdminMixin, CreateView):
+    model = models.Pet
+    template_name = 'appointment_new.html'
+    fields = "__all__"
+    login_url = 'login'
+    form_class = AppointmentForm
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['pet'].queryset = models.Pet.objects.filter(owner=self.request.user)
+        return form
+
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        return super().form_valid(form)
+
+
+class PetUpdateView(LoginRequiredMixin, IsAdminMixin, UpdateView):
+    model = models.Pet
+    fields = ['date', 'veterinarian', 'pet']
+    template_name = 'appointment_edit.html'
+    login_url = 'login'
+
+class PetDeleteView(LoginRequiredMixin, IsAdminMixin, DeleteView):
+    model = models.Pet
+    template_name = 'appointment_delete.html'
+    success_url = reverse_lazy('home')
+    login_url = 'login'
+
