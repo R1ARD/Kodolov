@@ -5,7 +5,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.exceptions import PermissionDenied
 
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm, AppointmentForm
 from . import models
 # Create your views here.
 from django.http import HttpResponse
@@ -31,6 +31,12 @@ class IsOwnerOrAdminMixin(UserPassesTestMixin):
             raise PermissionDenied
 
 
+class IsAdminMixin(UserPassesTestMixin):
+    def test_func(self):
+        if not self.request.user.is_staff:
+            raise PermissionDenied
+        return True
+
 class AppointmentListView(LoginRequiredMixin, ListView):
     model = models.Appointment
     template_name = 'appointment_list.html'
@@ -44,8 +50,9 @@ class AppointmentDetailView(LoginRequiredMixin, DetailView):
 class AppointmentCreateView(LoginRequiredMixin, CreateView):
     model = models.Appointment
     template_name = 'appointment_new.html'
-    fields = ['pet', 'veterinarian', 'date', 'notes']
+    #fields = ['pet', 'veterinarian', 'date', 'notes']
     login_url = 'login'
+    form_class = AppointmentForm
 
     def get_form(self, form_class=None):
         form = super().get_form(form_class)

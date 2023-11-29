@@ -55,7 +55,7 @@ ROOT_URLCONF = 'kod1.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates', 'templates/registration'],
+        'DIRS': ['templates', 'templates/registration', 'templates/appointment'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
