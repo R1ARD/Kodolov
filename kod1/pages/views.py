@@ -43,6 +43,13 @@ class AppointmentListView(LoginRequiredMixin, ListView):
     template_name = 'appointment_list.html'
     login_url = 'login'
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        query = self.request.GET.get('q')
+        if query:
+            queryset = queryset.filter(owner__first_name__icontains=query)
+        return queryset
+
 class AppointmentDetailView(LoginRequiredMixin, DetailView):
     model = models.Appointment
     template_name = 'appointment_detail.html'
