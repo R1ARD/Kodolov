@@ -12,9 +12,11 @@ class CustomUser(AbstractUser):
     phone = models.CharField(max_length=20, verbose_name='Телефон', null=True)
     birth_date = models.DateField(verbose_name='Дата рождения', blank=True, null=True)
 
-
     def __str__(self):
         return f"{self.first_name} {self.last_name} ({self.username})"
+
+    def get_absolute_url(self):
+        return reverse('user_detail', args=[str(self.id)])
 
 
 class VeterinarianProfile(models.Model):
@@ -22,15 +24,6 @@ class VeterinarianProfile(models.Model):
     education = models.CharField(max_length=50, verbose_name='Образование', null=True)
     veterinarian = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, limit_choices_to={'is_staff': True}, verbose_name='Ветеринар', null=True)
 
-class Pet(models.Model):
-    name = models.CharField(max_length=50, verbose_name='Имя питомца', null=True)
-    species = models.CharField(max_length=50, verbose_name='Вид', null=True)
-    breed = models.CharField(max_length=50, verbose_name='Порода', blank=True, null=True)
-    birth_date = models.DateField(verbose_name='Дата рождения', blank=True, null=True)
-    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, limit_choices_to={'is_staff': False}, verbose_name='Владелец', null=True)
-
-    def __str__(self):
-        return self.name
 
 class Medicine(models.Model):
     name = models.CharField(max_length=100, verbose_name='Название лекарства', null=True)
@@ -46,6 +39,22 @@ class Disease(models.Model):
 
     def __str__(self):
         return self.name
+
+class Pet(models.Model):
+    name = models.CharField(max_length=50, verbose_name='Имя питомца', null=True)
+    species = models.CharField(max_length=50, verbose_name='Вид', null=True)
+    breed = models.CharField(max_length=50, verbose_name='Порода', blank=True, null=True)
+    birth_date = models.DateField(verbose_name='Дата рождения', blank=True, null=True)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, limit_choices_to={'is_staff': False}, verbose_name='Владелец', null=True)
+    disease = models.ForeignKey(Disease, blank=True, null=True, on_delete=models.CASCADE, verbose_name='Название болезни')
+
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse('pet_detail', args=[str(self.id)])
+
+
 
 class Appointment(models.Model):
     pet = models.ForeignKey(Pet, on_delete=models.CASCADE, verbose_name='Питомец', null=True)

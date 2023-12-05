@@ -4,10 +4,22 @@
     {% block title %}Login{% endblock %}
 
     {% block content %}
-    <h2>Login</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Login</button>
-    </form>
+    <div class="container">
+        <h2>Login</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Login">
+            <script>
+              $(function () {
+                $("#id_birth_date").datetimepicker({
+                  format: 'Y-m-d H:i',
+                });
+              });
+            </script>
+        </form>
+        <p>
+            <a href="{% url 'password_reset' %}">Забыли пароль?</a>
+        </p>
+    </div>
     {% endblock content%}

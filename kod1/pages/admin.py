@@ -29,3 +29,4 @@ admin.site.register(Appointment)
 admin.site.register(Pet)
 admin.site.register(Disease)
 admin.site.register(Medicine)
+

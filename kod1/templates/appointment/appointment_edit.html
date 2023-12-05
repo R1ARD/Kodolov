@@ -1,0 +1,18 @@
+    {% extends 'base.html' %}
+    {% block content %}
+        <h1>
+            Изменить запись
+        </h1>
+        <form action="" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Изменить" />
+            <script>
+              $(function () {
+                $("#id_date").datetimepicker({
+                  format: 'Y-m-d H:i',
+                });
+              });
+            </script>
+        </form>
+    {% endblock %}

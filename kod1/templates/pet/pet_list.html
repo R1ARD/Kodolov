@@ -1,0 +1,23 @@
+    {% extends 'base.html' %}
+    {% block content %}
+        {%for pet in object_list %}
+            <div class="list">
+                <h2>
+                    <a href="{% url 'pet_detail' pet.pk %}">
+                        {{ pet }}
+                        {{ pet.species }}
+                        {{ pet.breed}}
+                    </a>
+                </h2>
+                <p>
+                    {{ pet.owner }} {{ pet.birth_date }}
+                </p>
+         {% if user.is_staff %}
+                <blockquote>
+                    <a href="{% url 'pet_edit' pet.pk %}">Редактировать запись</a>
+                    <a href="{% url 'pet_delete' pet.pk %}">Удалить запись</a>
+                </blockquote>
+         {% endif %}
+            </div>
+        {% endfor %}
+    {% endblock %}
