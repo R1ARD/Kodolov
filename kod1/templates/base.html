@@ -8,21 +8,44 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>VetKod</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+
+  <!-- XDSoft DateTimePicker -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 </head>
 <body>
     <header>
         <nav>
+
             <ul>
                 <li>
                     <a href="{% url 'home' %}">
                         <img class="logo" src="{% static 'image/logo.svg' %}">
                     </a>
                 </li>
-
-                <li>
-                    <a href="{% url 'home' %}"></a>
-                </li>
     {% if user.is_authenticated %}
+                <li>
+                    <a href="{% url 'user_detail' user.pk %}">{{ user }}</a>
+                </li>
+         {% if user.is_staff %}
+                <li>
+                    <a href="{% url 'pet_new' %}">Добавить пациента</a>
+                </li>
+                <li>
+                    <a href="{% url 'vet_appointment_list' %}">Ваши приёмы</a>
+                </li>
+         {% else %}
+                <li>
+                    <a href="{% url 'users_pet_list' %}">Ваши питомцы</a>
+                </li>
+                <li>
+                    <a href="{% url 'users_appointment_list' %}">Ваши записи</a>
+                </li>
+         {% endif %}
                 <li>
                     <a  href="{% url 'appointment_new' %}">Новая заявка</a>
                 </li>
@@ -36,7 +59,13 @@
                 <li>
                     <a href="{% url 'signup' %}">Регистрация</a>
                 </li>
+                <li>
+                    <a href="{% url 'password_reset' %}">Забыли пароль?</a>
+                </li>
     {% endif %}
+            </ul>
+        </nav>
+    </header>
         {% block content %}
         {% endblock content %}
 

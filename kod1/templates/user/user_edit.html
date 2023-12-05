@@ -1,0 +1,16 @@
+    {% extends 'base.html' %}
+    {% block content %}
+        <h1>
+            Изменить запись
+        </h1>
+        <form action="" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Изменить" />
+            <script>
+                $(document).ready(function() {
+                    $('#id_phone').mask('+7 (999) 999 99-99');
+                });
+            </script>
+        </form>
+    {% endblock %}

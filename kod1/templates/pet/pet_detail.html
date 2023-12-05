@@ -1,0 +1,17 @@
+
+{% extends 'base.html' %}
+    {% block content %}
+        <div class="appointment-entry">
+            <h2>
+                {{ pet }} {{ pet.birth_date }}
+            </h2>
+            <p>
+                {{ pet.disease }}
+            </p>
+            <p>
+                {{ pet.owner }}
+            </p>
+            <a href="{% url 'pet_edit' pet.pk %}">Редактировать запись</a>
+            <a href="{% url 'pet_delete' pet.pk %}">Удалить запись</a>
+        </div>
+    {% endblock content %}

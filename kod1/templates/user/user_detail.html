@@ -1,0 +1,16 @@
+
+{% extends 'base.html' %}
+    {% block content %}
+        <div class="appointment-entry">
+            <h1>
+                {{ customuser.last_name }} "{{ customuser.username }}" {{ customuser.first_name }} {{ customuser.father_name }}
+            </h1>
+            <h2>
+                {{ customuser.birth_date }}
+            </h2>
+            <h2>
+                {{ customuser.phone }}
+            </h2>
+            <a href="{% url 'user_edit' customuser.pk %}">Изменить инфорацию</a>
+        </div>
+    {% endblock content %}
