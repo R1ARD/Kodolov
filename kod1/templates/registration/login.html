@@ -5,11 +5,11 @@
 
     {% block content %}
     <div class="container">
-        <h2>Login</h2>
+        <h1>Вход</h1>
         <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
-            <input type="submit" value="Login">
+            <input type="submit" value="Войти">
             <script>
               $(function () {
                 $("#id_birth_date").datetimepicker({

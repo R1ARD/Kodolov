@@ -5,7 +5,7 @@
         <button type="submit">Поиск</button>
     </form>
         {%for appointment in object_list %}
-            <div class="Appointments-list">
+            <div class="list">
                 <h2>
                     <a href=" {% url 'appointment_detail' appointment.pk %}">
                         <div>

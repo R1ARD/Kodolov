@@ -18,12 +18,9 @@ class CustomUser(AbstractUser):
     def get_absolute_url(self):
         return reverse('user_detail', args=[str(self.id)])
 
-
-class VeterinarianProfile(models.Model):
-    specialization = models.CharField(max_length=50, verbose_name='Специализация', null=True)
-    education = models.CharField(max_length=50, verbose_name='Образование', null=True)
-    veterinarian = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, limit_choices_to={'is_staff': True}, verbose_name='Ветеринар', null=True)
-
+    class Meta:
+        verbose_name = "Пользователь"
+        verbose_name_plural = "Пользователи"
 
 class Medicine(models.Model):
     name = models.CharField(max_length=100, verbose_name='Название лекарства', null=True)
@@ -31,6 +28,10 @@ class Medicine(models.Model):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name = "Лекарство"
+        verbose_name_plural = "Лекарства"
 
 class Disease(models.Model):
     name = models.CharField(max_length=100, verbose_name='Название болезни', null=True)
@@ -40,16 +41,39 @@ class Disease(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name = "Болезнь"
+        verbose_name_plural = "Болезни"
+
+
+class Diagnosis(models.Model):
+    description = models.TextField(verbose_name='Описание', blank=True, null=True)
+    disease = models.ForeignKey(Disease, blank=True, null=True, on_delete=models.CASCADE, verbose_name='Название болезни')
+    createDate = models.DateTimeField(verbose_name='Дата постановки', auto_now_add=True, null=True)
+    veterinarian = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='Ветеринар', null=True, related_name='veterinarian_diagnoses')
+
+    def __str__(self):
+        return f"{self.pet.name} -> {self.disease.name}"
+
+    class Meta:
+        verbose_name = "Диагноз"
+        verbose_name_plural = "Диагнозы"
+
+
 class Pet(models.Model):
     name = models.CharField(max_length=50, verbose_name='Имя питомца', null=True)
     species = models.CharField(max_length=50, verbose_name='Вид', null=True)
     breed = models.CharField(max_length=50, verbose_name='Порода', blank=True, null=True)
     birth_date = models.DateField(verbose_name='Дата рождения', blank=True, null=True)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, limit_choices_to={'is_staff': False}, verbose_name='Владелец', null=True)
-    disease = models.ForeignKey(Disease, blank=True, null=True, on_delete=models.CASCADE, verbose_name='Название болезни')
+    disease = models.ForeignKey(Diagnosis, blank=True, null=True, on_delete=models.CASCADE, verbose_name='Диагноз')
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name = "Питомец"
+        verbose_name_plural = "Питомцы"
 
     def get_absolute_url(self):
         return reverse('pet_detail', args=[str(self.id)])
@@ -69,3 +93,9 @@ class Appointment(models.Model):
 
     def get_absolute_url(self):
         return reverse('appointment_detail', args=[str(self.id)])
+
+    class Meta:
+        verbose_name = "Заявление"
+        verbose_name_plural = "Заявления"
+
+

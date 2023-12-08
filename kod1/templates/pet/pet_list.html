@@ -1,5 +1,9 @@
     {% extends 'base.html' %}
     {% block content %}
+    <form class="search" method="get" action="">
+        <input type="text" name="pet-search" placeholder="Поиск...">
+        <button type="submit">Поиск</button>
+    </form>
         {%for pet in object_list %}
             <div class="list">
                 <h2>

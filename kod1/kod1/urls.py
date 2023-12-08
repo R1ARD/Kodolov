@@ -9,6 +9,6 @@ urlpatterns = [
     path('admin/', admin.site.urls, name='admin'),
     path('', views.homePageView, name='home'),
     path('about/', views.aboutPageView, name='about'),
-    path('pages/', include('pages.urls')),
-    path('pages/', include('django.contrib.auth.urls')),
+    path('vetKod/', include('pages.urls')),
+    path('vetKod/', include('django.contrib.auth.urls')),
 ]

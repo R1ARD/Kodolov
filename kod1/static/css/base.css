@@ -1,6 +1,26 @@
-.list:nth-child(even) {
-    background: rgb(185, 215, 185);
+@import url('https://fonts.googleapis.com/css2?family=Rubik&family=Russo+One&display=swap');
+
+body {
+    font-family: 'Rubik', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: rgb(235, 255, 235);
+    color: #4e664f;
+
 }
+
+.list {
+    padding: 10px 20px;
+}
+
+.list:nth-child(odd) {
+    background: #a1cba185;
+}
+
+.appointment-entry {
+    margin: 20px 20px;
+}
+
 h1, h2, h3 {
     color: #45a049;
 
@@ -8,6 +28,7 @@ h1, h2, h3 {
 
 h1 {
     text-align: center;
+    font-family: 'Russo One', sans-serif;
 }
 
 .list > p {
@@ -21,28 +42,22 @@ h1 {
 
 
 p {
-  color: #4e664f;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
+    color: #448444;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-content: center;
+    align-items: flex-start;
 }
 
 a {
-    font-weight: bold;
+    font-weight: 500;
     color: rgb(70, 70, 70);
     text-decoration: none;
 
 }
 
-body {
-    font-family:Arial, sans-serif ;
-    margin: 0;
-    padding: 0;
-    background: rgb(235, 255, 235);
-    color: #4e664f;
-
-}
 
 header {
     text-align: center;
@@ -74,20 +89,24 @@ nav {
     flex-wrap: wrap;
 }
 
-nav ul {
+nav > ul {
     padding: 0;
     list-style: none;
 }
 
-nav ul li {
+nav > ul > li {
     display: inline;
     margin: 0 20px;
 }
 
-nav ul li a {
+nav > ul > li > a {
     color: white;
     text-decoration: none;
     justify-content: left;
+}
+
+form > ul > li{
+    margin-left: 5em;
 }
 
 
@@ -122,7 +141,7 @@ label {
  input[type="email"],
  input[type="date"],
  input[type="password"] {
-    width: 30%;
+    width: 60%;
     padding: 10px;
     border: 1px solid #45a049;
     margin: 10px;
@@ -139,7 +158,9 @@ label {
 input[type="submit"], .btn, button {
     width: 20%;
     display: block;
+    text-align: center;
     padding: 10px;
+    font-weight: bold;
     background-color: #4CAF50;
     color: white;
     border: 0;
@@ -152,6 +173,7 @@ input[type="submit"], .btn, button {
 
 input[type="submit"]:hover, .btn:hover, button:hover {
     background-color: #45a049;
+
 }
 
 /* Стили для таблиц */
@@ -289,7 +311,6 @@ tr:nth-child(even) {
 
   /* Contact section */
   #contact {
-    padding: 100px 0;
     text-align: center;
     background-color: #d1f1d1;
   }
@@ -305,18 +326,10 @@ tr:nth-child(even) {
   }
 
 
-   .sign-up > p{
-    display: flex;
-    justify-content: start;
-    flex-wrap: wrap;
-    align-item: center;
-
-  }
-
-  .sign-up > p > input{
-    min-width: 100%;
-        margin: 0;
-  }
+.helptext {
+    font-size: 12px;
+    font-stretch: expanded;
+}
 
   .sign-up > p > label{
   align-item: center;

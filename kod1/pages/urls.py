@@ -11,7 +11,7 @@ urlpatterns = [
     path('user/<int:pk>/edit', views.UserUpdateView.as_view(), name='user_edit'),
     #Appointment
     path('appointment/', views.UsersAppointmentListView.as_view(), name='users_appointment_list'),
-    path('vetAppointment/', views.VetAppointmentListView.as_view(), name='vet_appointment_list'),
+    path('veterinarian/Appointment/', views.VetAppointmentListView.as_view(), name='vet_appointment_list'),
     path('appointment/<int:pk>/edit', views.AppointmentUpdateView.as_view(), name='appointment_edit'),
     path('appointment/<int:pk>/delete', views.AppointmentDeleteView.as_view(), name='appointment_delete'),
     path('appointment/<int:pk>/', views.AppointmentDetailView.as_view(), name='appointment_detail'),
