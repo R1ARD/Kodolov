@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
@@ -14,9 +14,6 @@ from django.http import HttpResponse
 
 def homePageView(request):
     return render(request, "home.html")
-
-def aboutPageView(request):
-    return render(request, "about.html")
 
 class SignUp(CreateView):
     form_class = CustomUserCreationForm
@@ -56,11 +53,15 @@ class VetAppointmentListView(LoginRequiredMixin, IsAdminMixin,ListView):
     login_url = 'login'
 
     def get_queryset(self):
-        queryset = super().get_queryset().filter(veterinarian=self.request.user)
+        queryset = super().get_queryset().filter(veterinarian=self.request.user, is_processed=False)
         query = self.request.GET.get('appointment-search')
         if query:
-            queryset = queryset.filter(Q(owner__first_name__icontains=query) | Q(owner__last_name__icontains=query) | Q(owner__username__icontains=query) |
-                                       Q(veterinarian__first_name__icontains=query) | Q(veterinarian__last_name__icontains=query) | Q(veterinarian__username__icontains=query) |
+            queryset = queryset.filter(Q(owner__first_name__icontains=query) |
+                                       Q(owner__last_name__icontains=query) |
+                                       Q(owner__username__icontains=query) |
+                                       Q(veterinarian__first_name__icontains=query) |
+                                       Q(veterinarian__last_name__icontains=query) |
+                                       Q(veterinarian__username__icontains=query) |
                                        Q(pet__name__icontains=query))
         return queryset
 
@@ -178,3 +179,23 @@ class UserUpdateView(LoginRequiredMixin, UserIsUserMixin, UpdateView):
     form_class = CustomUserChangeForm
     template_name = 'user_edit.html'
     login_url = 'login'
+
+#Diagnosis
+
+class DiagnosisCreateView(LoginRequiredMixin, IsAdminMixin, CreateView):
+    model = models.Diagnosis
+    fields = ['disease', 'veterinarian', 'other_fields']
+    template_name = 'diagnosis_new.html'
+
+    def get_initial(self):
+        pet_id = self.kwargs.get('pet_id')
+        return {'pet': pet_id}
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        # После создания диагноза, изменить is_processed у соответствующей заявки
+        pet_id = self.kwargs.get('pet_id')
+        appointment = get_object_or_404(models.Appointment, pet_id=pet_id, is_processed=False)
+        appointment.is_processed = True
+        appointment.save()
+        return response

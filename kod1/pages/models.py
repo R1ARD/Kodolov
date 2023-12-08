@@ -46,18 +46,6 @@ class Disease(models.Model):
         verbose_name_plural = "Болезни"
 
 
-class Diagnosis(models.Model):
-    description = models.TextField(verbose_name='Описание', blank=True, null=True)
-    disease = models.ForeignKey(Disease, blank=True, null=True, on_delete=models.CASCADE, verbose_name='Название болезни')
-    createDate = models.DateTimeField(verbose_name='Дата постановки', auto_now_add=True, null=True)
-    veterinarian = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='Ветеринар', null=True, related_name='veterinarian_diagnoses')
-
-    def __str__(self):
-        return f"{self.pet.name} -> {self.disease.name}"
-
-    class Meta:
-        verbose_name = "Диагноз"
-        verbose_name_plural = "Диагнозы"
 
 
 class Pet(models.Model):
@@ -66,7 +54,6 @@ class Pet(models.Model):
     breed = models.CharField(max_length=50, verbose_name='Порода', blank=True, null=True)
     birth_date = models.DateField(verbose_name='Дата рождения', blank=True, null=True)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, limit_choices_to={'is_staff': False}, verbose_name='Владелец', null=True)
-    disease = models.ForeignKey(Diagnosis, blank=True, null=True, on_delete=models.CASCADE, verbose_name='Диагноз')
 
     def __str__(self):
         return self.name
@@ -87,6 +74,7 @@ class Appointment(models.Model):
     createDate = models.DateTimeField(verbose_name='Дата отправки заявки', auto_now_add=True, null=True)
     date = models.DateTimeField(verbose_name='Дата и время приема', null=True)
     notes = models.TextField(verbose_name='Заметки', blank=True, null=True)
+    is_processed = models.BooleanField(default=False, verbose_name='Заявка рассмотрена')
 
     def __str__(self):
         return f"{self.owner.first_name}'s {self.pet.name} -> {self.veterinarian.first_name} : {self.date}"
@@ -99,3 +87,16 @@ class Appointment(models.Model):
         verbose_name_plural = "Заявления"
 
 
+class Diagnosis(models.Model):
+    pet = models.ForeignKey(Pet, on_delete=models.CASCADE, verbose_name='Питомец', null=True)
+    description = models.TextField(verbose_name='Описание', blank=True, null=True)
+    disease = models.ForeignKey(Disease, blank=True, null=True, on_delete=models.CASCADE, verbose_name='Название болезни')
+    createDate = models.DateTimeField(verbose_name='Дата постановки', auto_now_add=True, null=True)
+    veterinarian = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='Ветеринар', null=True, related_name='veterinarian_diagnoses')
+
+    def __str__(self):
+        return f"{self.pet.name} -> {self.disease.name}"
+
+    class Meta:
+        verbose_name = "Диагноз"
+        verbose_name_plural = "Диагнозы"
