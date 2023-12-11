@@ -23,6 +23,7 @@ urlpatterns = [
     path('pet/<int:pk>/', views.PetDetailView.as_view(), name='pet_detail'),
     path('pet/new/', views.PetCreateView.as_view(), name='pet_new'),
     #Diagnosis
+    path('pet/diagnoses/<int:pet_id>/', views.DiagnosisListView.as_view(), name='diagnosis_list'),
     path('diagnosis/create/<int:appointment_id>/', views.DiagnosisCreateView.as_view(), name='diagnosis_new'),
     path('diagnosis/<int:pk>/', views.DiagnosisDetailView.as_view(), name='diagnosis_detail'),
     path('diagnosis/<int:pk>/edit', views.DiagnosisUpdateView.as_view(), name='diagnosis_edit'),

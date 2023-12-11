@@ -8,12 +8,12 @@
             <h2>
                 {{ appointment.owner }}'s {{ appointment.pet }} {{ appointment.date }}
             </h2>
-            <p>
+            <div>
                 {{ appointment.veterinarian }}
-            </p>
-            <p>
+            </div>
+            <div>
                 {{ appointment.notes }}
-            </p>
+            </div>
             <a href="{% url 'appointment_edit' appointment.pk %}">Редактировать запись</a>
             <a href="{% url 'appointment_delete' appointment.pk %}">Удалить запись</a>
         </div>

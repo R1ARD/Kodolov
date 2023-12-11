@@ -13,9 +13,12 @@
                         {{ pet.breed}}
                     </a>
                 </h2>
-                <p>
+                <div>
                     {{ pet.owner }} {{ pet.birth_date }}
-                </p>
+                </div>
+                <blockquote>
+                    <a href="{% url 'diagnosis_list' pet_id=pet.id %}">Диагнозы</a>
+                </blockquote>
          {% if user.is_staff %}
                 <blockquote>
                     <a href="{% url 'pet_edit' pet.pk %}">Редактировать запись</a>

@@ -212,3 +212,14 @@ class DiagnosisUpdateView(LoginRequiredMixin, UserIsUserMixin, UpdateView):
     fields = ['disease', 'description']
     template_name = 'diagnosis_edit.html'
     login_url = 'login'
+
+class DiagnosisListView(ListView):
+    model = models.Diagnosis
+    template_name = 'diagnosis_list.html'  # укажите путь к вашему шаблону
+
+    def get_queryset(self):
+        """
+        Переопределение queryset для фильтрации диагнозов по питомцу.
+        """
+        pet_id = self.kwargs.get('pet_id')
+        return models.Diagnosis.objects.filter(pet__id=pet_id)

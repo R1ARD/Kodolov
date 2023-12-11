@@ -8,13 +8,13 @@
             <h2>
                 Пациент: {{ diagnosis.pet }}
             </h2>
-            <p>
+            <div>
                 Ветеринар: {{ diagnosis.veterinarian }}
-            </p>
-            <p>
+            </div>
+            <div>
                 Болезнь: {{ diagnosis.disease }}
-            </p>
-            <p>
+            </div>
+            <div>
                 Описание: {{ diagnosis.description }}
             </p>
             <a href="{% url 'diagnosis_edit' diagnosis.pk %}">Редактировать дагноз</a>

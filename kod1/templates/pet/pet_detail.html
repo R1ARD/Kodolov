@@ -8,12 +8,12 @@
             <h2>
                 {{ pet }} {{ pet.birth_date }}
             </h2>
-            <p>
+            <div>
                 {{ pet.disease }}
-            </p>
-            <p>
+            </div>
+            <div>
                 {{ pet.owner }}
-            </p>
+            </div>
             <a href="{% url 'pet_edit' pet.pk %}">Редактировать запись</a>
             <a href="{% url 'pet_delete' pet.pk %}">Удалить запись</a>
         </div>
