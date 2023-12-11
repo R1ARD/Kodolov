@@ -10,13 +10,6 @@
             {% csrf_token %}
             {{ form.as_p }}
             <input type="submit" value="Войти">
-            <script>
-              $(function () {
-                $("#id_birth_date").datetimepicker({
-                  format: 'Y-m-d H:i',
-                });
-              });
-            </script>
         </form>
         <p>
             <a href="{% url 'password_reset' %}">Забыли пароль?</a>

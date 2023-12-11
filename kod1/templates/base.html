@@ -4,9 +4,11 @@
 <head>
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <meta charset="UTF-8">
-    cd
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>VetKod</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
 
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -39,7 +41,7 @@
                     <a href="{% url 'users_pet_list' %}">Ваши питомцы</a>
                 </li>
                 <li>
-                    <a href="{% url 'users_appointment_list' %}">Ваши записи</a>
+                    <a href="{% url 'users_appointment_list' %}">Ваши заявки</a>
                 </li>
                 <li>
                     <a  href="{% url 'appointment_new' %}">Новая заявка</a>

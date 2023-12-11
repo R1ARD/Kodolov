@@ -1,0 +1,22 @@
+
+{% extends 'base.html' %}
+    {% block content %}
+        <div class="appointment-entry">
+            <h1>
+                Информация о диагнозе
+            </h1>
+            <h2>
+                Пациент: {{ diagnosis.pet }}
+            </h2>
+            <p>
+                Ветеринар: {{ diagnosis.veterinarian }}
+            </p>
+            <p>
+                Болезнь: {{ diagnosis.disease }}
+            </p>
+            <p>
+                Описание: {{ diagnosis.description }}
+            </p>
+            <a href="{% url 'diagnosis_edit' diagnosis.pk %}">Редактировать дагноз</a>
+        </div>
+    {% endblock content %}

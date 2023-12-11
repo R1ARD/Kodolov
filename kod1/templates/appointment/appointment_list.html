@@ -27,8 +27,8 @@
                 </div>
                 <blockquote>
                     <a href="{% url 'appointment_edit' appointment.pk %}">Редактировать запись</a>
-                    <a href="{% url 'create_diagnosis' appointment.pet.id %}">Создать диагноз</a>
                     <a href="{% url 'appointment_delete' appointment.pk %}">Удалить запись</a>
+                    <a href="{% url 'diagnosis_new' appointment_id=appointment.pk %}">Создать диагноз</a>
                 </blockquote>
             </div>
         {% endfor %}

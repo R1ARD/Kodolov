@@ -7,7 +7,7 @@ from django.core.exceptions import PermissionDenied
 from django.db.models import Q
 from django.contrib.auth import get_user_model
 
-from .forms import CustomUserCreationForm, CustomUserChangeForm
+from .forms import CustomUserCreationForm, CustomUserChangeForm, PetForm
 from . import models
 # Create your views here.
 from django.http import HttpResponse
@@ -15,10 +15,6 @@ from django.http import HttpResponse
 def homePageView(request):
     return render(request, "home.html")
 
-class SignUp(CreateView):
-    form_class = CustomUserCreationForm
-    success_url = reverse_lazy('login')
-    template_name = 'signup.html'
 
 class IsOwnerOrAdminMixin(UserPassesTestMixin):
     def test_func(self):
@@ -75,7 +71,9 @@ class UsersAppointmentListView(LoginRequiredMixin, ListView):
         queryset = super().get_queryset().filter(owner=self.request.user)
         query = self.request.GET.get('appointment-search')
         if query:
-            queryset = queryset.filter(Q(veterinarian__first_name__icontains=query) | Q(veterinarian__last_name__icontains=query) | Q(veterinarian__username__icontains=query) |
+            queryset = queryset.filter(Q(veterinarian__first_name__icontains=query) |
+                                       Q(veterinarian__last_name__icontains=query) |
+                                       Q(veterinarian__username__icontains=query) |
                                        Q(pet__name__icontains=query))
         return queryset
 
@@ -105,7 +103,7 @@ class AppointmentCreateView(LoginRequiredMixin, CreateView):
 class AppointmentUpdateView(LoginRequiredMixin, IsOwnerOrAdminMixin, UpdateView):
     model = models.Appointment
     fields = ['pet', 'veterinarian', 'date', 'notes']
-    template_name = 'appointment_edit.html'
+    template_name = 'diagnosis_edit.html'
     login_url = 'login'
 
 
@@ -151,14 +149,15 @@ class PetDetailView(LoginRequiredMixin, IsOwnerOrAdminMixin, DetailView):
 class PetCreateView(LoginRequiredMixin, IsAdminMixin, CreateView):
     model = models.Pet
     template_name = 'pet_new.html'
-    fields = "__all__"
+    form_class = PetForm
     login_url = 'login'
+
 
 
 class PetUpdateView(LoginRequiredMixin, IsAdminMixin, UpdateView):
     model = models.Pet
-    fields = "__all__"
     template_name = 'pet_edit.html'
+    form_class = PetForm
     login_url = 'login'
 
 class PetDeleteView(LoginRequiredMixin, IsAdminMixin, DeleteView):
@@ -168,6 +167,12 @@ class PetDeleteView(LoginRequiredMixin, IsAdminMixin, DeleteView):
     login_url = 'login'
 
 #User
+
+class SignUp(CreateView):
+    form_class = CustomUserCreationForm
+    success_url = reverse_lazy('login')
+    template_name = 'signup.html'
+
 
 class UserDetailView(LoginRequiredMixin, DetailView):
     model = models.CustomUser
@@ -184,18 +189,26 @@ class UserUpdateView(LoginRequiredMixin, UserIsUserMixin, UpdateView):
 
 class DiagnosisCreateView(LoginRequiredMixin, IsAdminMixin, CreateView):
     model = models.Diagnosis
-    fields = ['disease', 'veterinarian', 'other_fields']
+    fields = [ 'disease', 'description']
     template_name = 'diagnosis_new.html'
 
-    def get_initial(self):
-        pet_id = self.kwargs.get('pet_id')
-        return {'pet': pet_id}
-
     def form_valid(self, form):
-        response = super().form_valid(form)
-        # После создания диагноза, изменить is_processed у соответствующей заявки
-        pet_id = self.kwargs.get('pet_id')
-        appointment = get_object_or_404(models.Appointment, pet_id=pet_id, is_processed=False)
+        # Получение записи на прием и установка питомца с ветеринаром
+        appointment = get_object_or_404(models.Appointment, pk=self.kwargs['appointment_id'])
+        form.instance.pet = appointment.pet
+        form.instance.veterinarian = appointment.veterinarian
+        # Обновление записи на прием как обработанной
         appointment.is_processed = True
         appointment.save()
-        return response
+        return super().form_valid(form)
+
+class DiagnosisDetailView(LoginRequiredMixin, DetailView):
+    model = models.Diagnosis
+    template_name = 'diagnosis_detail.html'
+    login_url = 'login'
+
+class DiagnosisUpdateView(LoginRequiredMixin, UserIsUserMixin, UpdateView):
+    model = models.Diagnosis
+    fields = ['disease', 'description']
+    template_name = 'diagnosis_edit.html'
+    login_url = 'login'

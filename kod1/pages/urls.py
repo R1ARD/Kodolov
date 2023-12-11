@@ -11,7 +11,7 @@ urlpatterns = [
     path('user/<int:pk>/edit', views.UserUpdateView.as_view(), name='user_edit'),
     #Appointment
     path('appointment/', views.UsersAppointmentListView.as_view(), name='users_appointment_list'),
-    path('veterinarian/Appointment/', views.VetAppointmentListView.as_view(), name='vet_appointment_list'),
+    path('veterinarian/appointment/', views.VetAppointmentListView.as_view(), name='vet_appointment_list'),
     path('appointment/<int:pk>/edit', views.AppointmentUpdateView.as_view(), name='appointment_edit'),
     path('appointment/<int:pk>/delete', views.AppointmentDeleteView.as_view(), name='appointment_delete'),
     path('appointment/<int:pk>/', views.AppointmentDetailView.as_view(), name='appointment_detail'),
@@ -23,5 +23,7 @@ urlpatterns = [
     path('pet/<int:pk>/', views.PetDetailView.as_view(), name='pet_detail'),
     path('pet/new/', views.PetCreateView.as_view(), name='pet_new'),
     #Diagnosis
-    path('diagnosis/create/<int:pet_id>/', views.DiagnosisCreateView.as_view(), name='create_diagnosis'),
+    path('diagnosis/create/<int:appointment_id>/', views.DiagnosisCreateView.as_view(), name='diagnosis_new'),
+    path('diagnosis/<int:pk>/', views.DiagnosisDetailView.as_view(), name='diagnosis_detail'),
+    path('diagnosis/<int:pk>/edit', views.DiagnosisUpdateView.as_view(), name='diagnosis_edit'),
 ]

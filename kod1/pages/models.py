@@ -94,6 +94,9 @@ class Diagnosis(models.Model):
     createDate = models.DateTimeField(verbose_name='Дата постановки', auto_now_add=True, null=True)
     veterinarian = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='Ветеринар', null=True, related_name='veterinarian_diagnoses')
 
+    def get_absolute_url(self):
+        return reverse('diagnosis_detail', args=[str(self.id)])
+
     def __str__(self):
         return f"{self.pet.name} -> {self.disease.name}"
 
