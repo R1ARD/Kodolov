@@ -141,6 +141,7 @@ label {
  input[type="email"],
  input[type="date"],
  input[type="password"],
+ input[type="datetime-local" i],
   textarea {
     width: 60%;
     padding: 10px;
@@ -300,6 +301,7 @@ tr:nth-child(even) {
   }
 
   .menu-item {
+    width: 30%;
     text-align: center;
     margin-bottom: 40px;
   }

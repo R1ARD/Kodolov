@@ -7,7 +7,7 @@ from django.core.exceptions import PermissionDenied
 from django.db.models import Q
 from django.contrib.auth import get_user_model
 
-from .forms import CustomUserCreationForm, CustomUserChangeForm, PetForm
+from .forms import CustomUserCreationForm, CustomUserChangeForm, PetForm, AppointmentForm
 from . import models
 # Create your views here.
 from django.http import HttpResponse
@@ -87,7 +87,7 @@ class AppointmentDetailView(LoginRequiredMixin, DetailView):
 class AppointmentCreateView(LoginRequiredMixin, CreateView):
     model = models.Appointment
     template_name = 'appointment_new.html'
-    fields = ['pet', 'veterinarian', 'date', 'notes']
+    form_class = AppointmentForm
     login_url = 'login'
 
     def get_form(self, form_class=None):
@@ -146,11 +146,15 @@ class PetDetailView(LoginRequiredMixin, IsOwnerOrAdminMixin, DetailView):
     template_name = 'pet_detail.html'
     login_url = 'login'
 
-class PetCreateView(LoginRequiredMixin, IsAdminMixin, CreateView):
+class PetCreateView(LoginRequiredMixin, CreateView):
     model = models.Pet
     template_name = 'pet_new.html'
     form_class = PetForm
     login_url = 'login'
+
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        return super().form_valid(form)
 
 
 

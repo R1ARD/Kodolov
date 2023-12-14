@@ -72,7 +72,7 @@ class Appointment(models.Model):
     veterinarian = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, limit_choices_to={'is_staff': True}, verbose_name='Ветеринар', null=True, related_name='veterinarian_appointments')
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, limit_choices_to={'is_staff': False}, verbose_name='Владелец питомца', null=True, related_name='owner_appointments')
     createDate = models.DateTimeField(verbose_name='Дата отправки заявки', auto_now_add=True, null=True)
-    date = models.DateTimeField(verbose_name='Дата и время приема', null=True)
+    date = models.DateTimeField(verbose_name='Дата и время приема', null=True, unique=True)
     notes = models.TextField(verbose_name='Заметки', blank=True, null=True)
     is_processed = models.BooleanField(default=False, verbose_name='Заявка рассмотрена')
 

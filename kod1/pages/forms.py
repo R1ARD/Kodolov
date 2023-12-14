@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from .models import CustomUser, Pet
+from .models import CustomUser, Pet, Appointment
 from django.core.exceptions import ValidationError
 from django.utils import timezone
 from datetime import timedelta
@@ -55,7 +55,7 @@ class CustomUserChangeForm(UserChangeForm):
 class PetForm(forms.ModelForm):
     class Meta:
         model = Pet
-        fields = "__all__"
+        fields = ('name', 'species', 'breed', 'birth_date')
         widgets = {
             'birth_date': forms.DateTimeInput(attrs={'type': 'date', 'required': 'required'}, format='%Y-%m-%d')
         }
@@ -67,3 +67,20 @@ class PetForm(forms.ModelForm):
         if birth_date > timezone.now().date():
             raise ValidationError("Дата рождения не может быть в будущем.")
         return birth_date
+
+class AppointmentForm(forms.ModelForm):
+    class Meta:
+        model = Appointment
+        fields = ('pet', 'veterinarian', 'date', 'notes')
+        widgets = {
+            'date': forms.DateTimeInput(attrs={'type': 'datetime-local', 'required': 'required'}, format='%Y-%m-%d %H:%M')
+        }
+
+    def clean_date(self):
+        date = self.cleaned_data.get('date')
+
+        # Проверка на то, что дата рождения не в прошлом
+        if date < timezone.now():
+            raise ValidationError("Дата записи не может быть в прошлом.")
+        return date
+

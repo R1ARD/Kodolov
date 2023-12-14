@@ -25,6 +25,11 @@
                     <a href="{% url 'pet_delete' pet.pk %}">Удалить запись</a>
                 </blockquote>
          {% endif %}
-            </div>
+
         {% endfor %}
+                <div class="container">
+                    <a class="btn" href="{% url 'pet_new' %}">Добавить питомца</a>
+                </div>
+            </div>
+
     {% endblock %}

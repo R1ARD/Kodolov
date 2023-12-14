@@ -31,14 +31,14 @@
                 </li>
          {% if user.is_staff %}
                 <li>
-                    <a href="{% url 'pet_new' %}">Добавить пациента</a>
-                </li>
-                <li>
                     <a href="{% url 'vet_appointment_list' %}">Ваши приёмы</a>
                 </li>
          {% else %}
                 <li>
                     <a href="{% url 'users_pet_list' %}">Ваши питомцы</a>
+                </li>
+                <li>
+                    <a href="{% url 'pet_new' %}">Добавить питомца</a>
                 </li>
                 <li>
                     <a href="{% url 'users_appointment_list' %}">Ваши заявки</a>
