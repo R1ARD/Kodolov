@@ -13,13 +13,13 @@ urlpatterns = [
     path('appointment/', views.UsersAppointmentListView.as_view(), name='users_appointment_list'),
     path('veterinarian/appointment/', views.VetAppointmentListView.as_view(), name='vet_appointment_list'),
     path('appointment/<int:pk>/edit', views.AppointmentUpdateView.as_view(), name='appointment_edit'),
-    path('appointment/<int:pk>/delete', views.AppointmentDeleteView.as_view(), name='appointment_delete'),
+    #path('appointment/<int:pk>/delete', views.AppointmentDeleteView.as_view(), name='appointment_delete'),
     path('appointment/<int:pk>/', views.AppointmentDetailView.as_view(), name='appointment_detail'),
     path('appointment/new/', views.AppointmentCreateView.as_view(), name='appointment_new'),
     #Pet
     path('pet/', views.UsersPetListView.as_view(), name='users_pet_list'),
     path('pet/<int:pk>/edit', views.PetUpdateView.as_view(), name='pet_edit'),
-    path('pet/<int:pk>/delete', views.PetDeleteView.as_view(), name='pet_delete'),
+    path('pet/<int:pk>/delete', views.PetHideView, name='pet_delete'),
     path('pet/<int:pk>/', views.PetDetailView.as_view(), name='pet_detail'),
     path('pet/new/', views.PetCreateView.as_view(), name='pet_new'),
     #Diagnosis

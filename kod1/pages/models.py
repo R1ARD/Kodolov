@@ -54,6 +54,7 @@ class Pet(models.Model):
     breed = models.CharField(max_length=50, verbose_name='Порода', blank=True, null=True)
     birth_date = models.DateField(verbose_name='Дата рождения', blank=True, null=True)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, limit_choices_to={'is_staff': False}, verbose_name='Владелец', null=True)
+    is_visible = models.BooleanField(default=True, verbose_name='Питомец виден')
 
     def __str__(self):
         return self.name
@@ -68,7 +69,7 @@ class Pet(models.Model):
 
 
 class Appointment(models.Model):
-    pet = models.ForeignKey(Pet, on_delete=models.CASCADE, verbose_name='Питомец', null=True)
+    pet = models.ForeignKey(Pet, on_delete=models.CASCADE, verbose_name='Питомец', null=True, limit_choices_to={'is_visible': True})
     veterinarian = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, limit_choices_to={'is_staff': True}, verbose_name='Ветеринар', null=True, related_name='veterinarian_appointments')
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, limit_choices_to={'is_staff': False}, verbose_name='Владелец питомца', null=True, related_name='owner_appointments')
     createDate = models.DateTimeField(verbose_name='Дата отправки заявки', auto_now_add=True, null=True)

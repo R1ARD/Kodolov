@@ -106,12 +106,11 @@ class AppointmentUpdateView(LoginRequiredMixin, IsOwnerOrAdminMixin, UpdateView)
     template_name = 'diagnosis_edit.html'
     login_url = 'login'
 
-
-class AppointmentDeleteView(LoginRequiredMixin, IsOwnerOrAdminMixin, DeleteView):
-    model = models.Appointment
-    template_name = 'appointment_delete.html'
-    success_url = reverse_lazy('home')
-    login_url = 'login'
+# class AppointmentDeleteView(LoginRequiredMixin, IsOwnerOrAdminMixin, DeleteView):
+#     model = models.Appointment
+#     template_name = 'appointment_delete.html'
+#     success_url = reverse_lazy('home')
+#     login_url = 'login'
 
 #Pet
 
@@ -134,7 +133,7 @@ class UsersPetListView(LoginRequiredMixin, ListView):
     login_url = 'login'
 
     def get_queryset(self):
-        queryset = super().get_queryset().filter(owner=self.request.user)
+        queryset = super().get_queryset().filter(owner=self.request.user, is_visible=True)
         query = self.request.GET.get('pet-search')
         if query:
             queryset = queryset.filter(Q(name__icontains=query))
@@ -164,11 +163,18 @@ class PetUpdateView(LoginRequiredMixin, IsAdminMixin, UpdateView):
     form_class = PetForm
     login_url = 'login'
 
-class PetDeleteView(LoginRequiredMixin, IsAdminMixin, DeleteView):
-    model = models.Pet
-    template_name = 'pet_delete.html'
-    success_url = reverse_lazy('home')
-    login_url = 'login'
+def PetHideView(request, pk):
+    obj = get_object_or_404(models.Pet, pk=pk)
+    obj.is_visible = False
+    obj.save()
+    return redirect('pet_list')
+
+
+# class PetDeleteView(LoginRequiredMixin, IsAdminMixin, DeleteView):
+#     model = models.Pet
+#     template_name = 'pet_delete.html'
+#     success_url = reverse_lazy('home')
+#     login_url = 'login'
 
 #User
 
