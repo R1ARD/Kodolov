@@ -5,11 +5,12 @@ from . import models
 
 
 # Register your models here.
-
+admin.site.register(models.Diagnosis)
+admin.site.register(models.Service)
 admin.site.register(models.CustomUser)
 admin.site.register(models.Appointment)
 admin.site.register(models.Pet)
 admin.site.register(models.Disease)
 admin.site.register(models.Medicine)
-admin.site.register(models.Diagnosis)
+
 

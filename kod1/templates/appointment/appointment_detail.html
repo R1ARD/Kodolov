@@ -6,10 +6,19 @@
                 Информация о записи
             </h1>
             <h2>
-                {{ appointment.owner }}'s {{ appointment.pet }} {{ appointment.date }}
+                Питомец: {{ appointment.pet }}
+            </h2>
+            <h2>
+                Время записи: {{ appointment.date }}
+            </h2>
+            <h2>
+                 Ветеринар: {{ appointment.veterinarian }}
             </h2>
             <div>
-                {{ appointment.veterinarian }}
+                Владелец:{{ appointment.owner }}
+            </div>
+            <div>
+                Цена услуг: {{ appointment.total_price }} руб.
             </div>
             <div>
                 {{ appointment.notes }}

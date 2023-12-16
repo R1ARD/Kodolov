@@ -1,0 +1,10 @@
+{% if time_slots %}
+    <label for="{{ widget.attrs.id }}">{{ widget.attrs.placeholder }}</label>
+    <select name="{{ widget.name }}" id="{{ widget.attrs.id }}">
+        {% for time in time_slots %}
+            <option value="{{ time }}">{{ time|date:"H:i" }}</option>
+        {% endfor %}
+    </select>
+{% else %}
+    <p>Нет доступных временных слотов на сегодня.</p>
+{% endif %}

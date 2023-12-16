@@ -14,7 +14,7 @@ body {
     padding: 10px 20px;
 }
 
-.list:nth-child(odd) {
+.list:nth-child(even) {
     background: #a1cba185;
 }
 
@@ -48,12 +48,12 @@ p {
     flex-wrap: wrap;
     flex-direction: column;
     align-content: center;
-    align-items: flex-start;
+    align-items: center;
 }
 
 a {
     font-weight: 500;
-    color: rgb(70, 70, 70);
+    color: #555555;
     text-decoration: none;
 
 }
@@ -105,10 +105,20 @@ nav > ul > li > a {
     justify-content: left;
 }
 
-form > ul > li{
-    margin-left: 5em;
+
+form > ul {
+    width: 80%;
+    align-self: center;
 }
 
+.mobile-multiple-select {
+  width: 100%; /* Ширина на всю доступную область */
+  height: auto; /* Высота автоматически подстраивается под количество опций */
+  border: 1px solid #ccc; /* Граница для лучшей видимости */
+  padding: 10px; /* Отступы внутри */
+  font-size: 16px; /* Больший размер шрифта для лучшего чтения на мобильных */
+  box-sizing: border-box; /* Включаем box-sizing */
+}
 
 .logo {
     width: 100px;
@@ -237,7 +247,6 @@ tr:nth-child(even) {
   .container {
     max-width: 960px;
     margin: 0 auto;
-    padding: 20px;
   }
 
   /* Header */
@@ -249,6 +258,7 @@ tr:nth-child(even) {
     flex-direction: row;
     align-content: center;
     align-items: center;
+    flex-wrap: wrap;
   }
 
 
@@ -361,6 +371,7 @@ tr:nth-child(even) {
 .helptext {
     font-size: 12px;
     font-stretch: expanded;
+    margin: 20px
 }
 
   .sign-up > p > label{
@@ -389,4 +400,11 @@ tr:nth-child(even) {
     .container {
         width: 100%;
     }
+
+      .menu-item img {
+    width: 100px;    /* Smaller width for mobile devices */
+    height: 100px;   /* Smaller height for mobile devices */
+    margin-bottom: 10px; /* Reduced margin for mobile layout */
+    object-fit: cover;
+    border-radius: 50%;
 }

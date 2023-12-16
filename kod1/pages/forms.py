@@ -4,6 +4,7 @@ from .models import CustomUser, Pet, Appointment
 from django.core.exceptions import ValidationError
 from django.utils import timezone
 from datetime import timedelta
+import datetime
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -71,16 +72,41 @@ class PetForm(forms.ModelForm):
 class AppointmentForm(forms.ModelForm):
     class Meta:
         model = Appointment
-        fields = ('pet', 'veterinarian', 'date', 'notes')
+        fields = ('pet', 'services', 'veterinarian', 'date', 'notes')
         widgets = {
-            'date': forms.DateTimeInput(attrs={'type': 'datetime-local', 'required': 'required'}, format='%Y-%m-%d %H:%M')
+            'date': forms.DateTimeInput(attrs={'type': 'datetime-local', 'required': 'required', 'step': 1800}, format='%Y-%m-%d %H:%M' )
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        # Настройка начального и конечного времени для выбора
+        now = timezone.localtime()
+
+        # Получение уже занятых временных слотов
+        existing_appointments = Appointment.objects.filter(
+            date__date=now.date(),
+            date__gte=now
+        ).values_list('date', flat=True)
+
+        # Фильтруйте занятые временные слоты
+        self.exclude_times = existing_appointments
 
     def clean_date(self):
         date = self.cleaned_data.get('date')
 
+        if date.time() < datetime.time(8, 0) or date.time() > datetime.time(21, 0):
+            raise forms.ValidationError("Выбранное время вне рабочих часов.")
+
+        if date in self.exclude_times:
+            raise forms.ValidationError("Это время уже занято.")
+
         # Проверка на то, что дата рождения не в прошлом
         if date < timezone.now():
             raise ValidationError("Дата записи не может быть в прошлом.")
+
+        if date.minute not in [0, 30]:
+            raise ValidationError("Время должно быть выбрано с шагом в 30 минут.")
+
         return date
 

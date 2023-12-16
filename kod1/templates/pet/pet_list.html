@@ -19,10 +19,9 @@
                 <blockquote>
                     <a href="{% url 'diagnosis_list' pet_id=pet.id %}">Диагнозы</a>
                 </blockquote>
-         {% if user.is_staff %}
+         {% if not user.is_staff %}
                 <blockquote>
                     <a href="{% url 'pet_edit' pet.pk %}">Редактировать запись</a>
-                    <a href="{% url 'pet_delete' pet.pk %}">Удалить запись</a>
                 </blockquote>
          {% endif %}
 

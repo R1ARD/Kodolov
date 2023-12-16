@@ -66,7 +66,17 @@ class Pet(models.Model):
     def get_absolute_url(self):
         return reverse('pet_detail', args=[str(self.id)])
 
+class Service(models.Model):
+    name = models.CharField(max_length=100, verbose_name='Название услуги')
+    description = models.TextField(verbose_name='Описание', blank=True)
+    price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Цена')
 
+    def __str__(self):
+        return f"{self.name} - {self.price} руб."
+
+    class Meta:
+        verbose_name = 'Услуга'
+        verbose_name_plural = 'Услуги'
 
 class Appointment(models.Model):
     pet = models.ForeignKey(Pet, on_delete=models.CASCADE, verbose_name='Питомец', null=True, limit_choices_to={'is_visible': True})
@@ -76,6 +86,9 @@ class Appointment(models.Model):
     date = models.DateTimeField(verbose_name='Дата и время приема', null=True, unique=True)
     notes = models.TextField(verbose_name='Заметки', blank=True, null=True)
     is_processed = models.BooleanField(default=False, verbose_name='Заявка рассмотрена')
+    services = models.ManyToManyField(Service, verbose_name='Услуги')
+
+
 
     def __str__(self):
         return f"{self.owner.first_name}'s {self.pet.name} -> {self.veterinarian.first_name} : {self.date}"
