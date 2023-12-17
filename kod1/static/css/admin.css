@@ -4,6 +4,14 @@
   box-shadow: 0px 0px 3px 0px #ff0000;
 }
 
+.dashboard #content {
+    width: 60%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
 #header a:link, #header a:visited{
   color: #ffffff !important;
 }

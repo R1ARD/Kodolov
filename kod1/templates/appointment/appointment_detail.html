@@ -18,6 +18,14 @@
                 Владелец:{{ appointment.owner }}
             </div>
             <div>
+                    Услуги:
+                        <ul>
+                            {% for service in appointment.services.all %}
+                                <li>{{ service.name }}</li>
+                            {% endfor %}
+                      </ul>
+                </div>
+            <div>
                 Цена услуг: {{ appointment.total_price }} руб.
             </div>
             <div>

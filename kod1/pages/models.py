@@ -8,9 +8,7 @@ class CustomUser(AbstractUser):
     first_name = models.CharField(max_length=50, verbose_name='Имя', null=True)
     last_name = models.CharField(max_length=50, verbose_name='Фамилия', null=True)
     father_name = models.CharField(max_length=50, verbose_name='Отчество', blank=True, null=True)
-    gender = models.CharField(max_length=50, verbose_name='Гендер', null=True)
     phone = models.CharField(max_length=20, verbose_name='Телефон', null=True)
-    birth_date = models.DateField(verbose_name='Дата рождения', blank=True, null=True)
 
     def __str__(self):
         return f"{self.first_name} {self.last_name} ({self.username})"
@@ -70,6 +68,7 @@ class Service(models.Model):
     name = models.CharField(max_length=100, verbose_name='Название услуги')
     description = models.TextField(verbose_name='Описание', blank=True)
     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Цена')
+    is_diagnosis = models.BooleanField(default=False, verbose_name='Является диагнозом')
 
     def __str__(self):
         return f"{self.name} - {self.price} руб."
@@ -83,7 +82,7 @@ class Appointment(models.Model):
     veterinarian = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, limit_choices_to={'is_staff': True}, verbose_name='Ветеринар', null=True, related_name='veterinarian_appointments')
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, limit_choices_to={'is_staff': False}, verbose_name='Владелец питомца', null=True, related_name='owner_appointments')
     createDate = models.DateTimeField(verbose_name='Дата отправки заявки', auto_now_add=True, null=True)
-    date = models.DateTimeField(verbose_name='Дата и время приема', null=True, unique=True)
+    date = models.DateTimeField(verbose_name='Дата и время приема', null=True)
     notes = models.TextField(verbose_name='Заметки', blank=True, null=True)
     is_processed = models.BooleanField(default=False, verbose_name='Заявка рассмотрена')
     services = models.ManyToManyField(Service, verbose_name='Услуги')

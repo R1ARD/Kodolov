@@ -4,12 +4,13 @@
 
     {% block content %}
     {% load static %}
-    <nav>
+    <nav class="nav-main">
       <ul>
         <li><a href="#home">Главная</a></li>
+        <li><a href="#contact">Услуги</a></li>
         <li><a href="#menu">Отзывы</a></li>
         <li><a href="#about">О нас</a></li>
-        <li><a href="#contact">Адрес</a></li>
+        <li><a href="#adress">Адрес</a></li>
       </ul>
     </nav>
 
@@ -18,6 +19,30 @@
       <h1>Добро пожаловать в ветеринарную клинику<br>Добро</h1>
       <p>Наши специалисты создадут уютную и спокойную атмосферу для вашего питомца, обеспечивая ему незабываемый уход и комфорт.</p>
       <a  href="{% url 'appointment_new' %}" class="btn">Создать заявку</a>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="container">
+      <h2>Услуги</h2>
+      <table>
+        <thead>
+          <tr>
+            <th class="service-name">Название услуги</th>
+            <th class="service-description">Описание</th>
+            <th class="service-price">Цена</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for service in object_list %}
+            <tr>
+              <td class="service-name">{{ service.name }}</td>
+              <td class="service-description">{{ service.description }}</td>
+              <td class="service-price">{{ service.price }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
   </section>
 
@@ -51,13 +76,8 @@
     </div>
   </section>
 
-  <section id="contact">
+  <section id="adress">
     <script type="text/javascript" charset="utf-8" async src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3A7fd0d52d50d9dab676276df5a680c0c015a556ff8312a227ff9d54549154e586&amp;width=100%25&amp;height=400&amp;lang=ru_RU&amp;scroll=true"></script>
-    <!--<div class="container">
-      <h2>Контакты</h2>
-      <p>Приходите к нам по адресу: ул. Примерная, 123, г. Ваш город</p>
-      <p>Телефон: 123-456-789</p>
-    </div>-->
   </section>
 
   <footer>

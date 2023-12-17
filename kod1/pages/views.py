@@ -1,11 +1,12 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.exceptions import PermissionDenied
-from django.db.models import Q, Sum
+from django.db.models import Q, Sum, Exists, OuterRef
 from django.contrib.auth import get_user_model
+from django.views import View
 
 from .forms import CustomUserCreationForm, CustomUserChangeForm, PetForm, AppointmentForm
 from . import models
@@ -31,6 +32,13 @@ class IsAdminMixin(UserPassesTestMixin):
             raise PermissionDenied
         return True
 
+class IsNotStaffMixin(UserPassesTestMixin):
+    def test_func(self):
+        if self.request.user.is_staff:
+            raise PermissionDenied
+        return True
+
+
 
 class UserIsUserMixin(UserPassesTestMixin):
     def test_func(self):
@@ -51,11 +59,18 @@ class AppointmentListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
 
+        # Аннотация для проверки наличия услуги с is_diagnosis=True
+        diagnosis_service_exists = models.Service.objects.filter(
+            appointment=OuterRef('pk'),
+            is_diagnosis=True
+        )
+        queryset = queryset.annotate(has_diagnosis_service=Exists(diagnosis_service_exists))
+
         # Проверяем, является ли пользователь ветеринаром (пример: по атрибуту is_staff)
         if self.request.user.is_staff:
             queryset = queryset.filter(veterinarian=self.request.user, is_processed=False)
         else:
-            queryset = queryset.filter(owner=self.request.user)
+            queryset = queryset.filter(owner=self.request.user, is_processed=False)
 
         queryset = queryset.annotate(total_price=Sum('services__price'))
 
@@ -90,7 +105,7 @@ class AppointmentDetailView(LoginRequiredMixin, DetailView):
         return context
 
 
-class AppointmentCreateView(LoginRequiredMixin, CreateView):
+class AppointmentCreateView(LoginRequiredMixin, IsNotStaffMixin, CreateView):
     model = models.Appointment
     template_name = 'appointment_new.html'
     form_class = AppointmentForm
@@ -111,6 +126,17 @@ class AppointmentUpdateView(LoginRequiredMixin, IsOwnerOrAdminMixin, UpdateView)
     form_class = AppointmentForm
     template_name = 'diagnosis_edit.html'
     login_url = 'login'
+
+
+def AppointmentProcess(request, pk):
+    appointment = get_object_or_404(models.Appointment, pk=pk)
+
+    # Проверяем, имеет ли пользователь право изменить эту запись
+    if appointment.veterinarian == request.user or request.user.is_staff:
+        appointment.is_processed = True
+        appointment.save()
+
+    return redirect('appointment_list')  # Название вашего URL для AppointmentListView
 
 # class AppointmentDeleteView(LoginRequiredMixin, IsOwnerOrAdminMixin, DeleteView):
 #     model = models.Appointment
@@ -228,3 +254,9 @@ class DiagnosisListView(ListView):
         """
         pet_id = self.kwargs.get('pet_id')
         return models.Diagnosis.objects.filter(pet__id=pet_id)
+
+#Service
+
+class ServiceListView(ListView):
+    model = models.Service
+    template_name = 'home.html'

@@ -23,15 +23,33 @@
                     Владелец: {{ appointment.owner }}
                 </div>
                 <div>
+                    Услуги:
+                        <ul>
+                            {% for service in appointment.services.all %}
+                                <li>{{ service.name }}</li>
+                            {% endfor %}
+                      </ul>
+                </div>
+                <div>
                     Цена услуг: {{ appointment.total_price }} руб.
                 </div>
                 <div>
                      Создано: {{ appointment.createDate }}
                 </div>
                 <blockquote>
-                    <a href="{% url 'appointment_edit' appointment.pk %}">Редактировать запись</a>
-                    <a href="{% url 'diagnosis_new' appointment_id=appointment.pk %}">Создать диагноз</a>
+                    {% if user.is_staff %}
+                        {% if appointment.has_diagnosis_service %}
+                            <a class="btn" href="{% url 'diagnosis_new' appointment_id=appointment.pk %}">Поставить диагноз и обработать</a>
+                        {% else %}
+                            <a class="btn" href="{% url 'appointment_process' appointment.id %}">Обработать</a>
+                        {% endif %}
+                    {% else %}
+                        <a href="{% url 'appointment_edit' appointment.pk %}">Редактировать запись</a>
+                    {% endif %}
                 </blockquote>
+
             </div>
+
         {% endfor %}
+
     {% endblock %}
