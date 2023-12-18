@@ -1,5 +1,8 @@
     {% extends 'base.html' %}
     {% block content %}
+    <h1>
+        Список питомцев
+    </h1>
     <form class="search" method="get" action="">
         <input type="text" name="pet-search" placeholder="Поиск...">
         <button type="submit">Поиск</button>
@@ -8,27 +11,19 @@
             <div class="list">
                 <h2>
                     <a href="{% url 'pet_detail' pet.pk %}">
-                        {{ pet }}
-                        {{ pet.species }}
-                        {{ pet.breed}}
+                        <div>Кличка: {{ pet }}</div>
+                        <div>Вид: {{ pet.species }}</div>
+                        <div>Порода: {{ pet.breed}}</div>
                     </a>
                 </h2>
                 <div>
-                    {{ pet.owner }} {{ pet.birth_date }}
+                    <div>Дата рождения: {{ pet.birth_date }}</div>
+                    <div>Владелец: {{ pet.owner }}</div>
                 </div>
                 <blockquote>
-                    <a href="{% url 'diagnosis_list' pet_id=pet.id %}">Диагнозы</a>
+                    <a class="btn" href="{% url 'diagnosis_list' pet_id=pet.id %}">Диагнозы</a>
+                    <a class="btn" href="{% url 'pet_edit' pet.pk %}">Изменить питомца</a>
                 </blockquote>
-         {% if not user.is_staff %}
-                <blockquote>
-                    <a href="{% url 'pet_edit' pet.pk %}">Редактировать запись</a>
-                </blockquote>
-         {% endif %}
-
-        {% endfor %}
-                <div class="container">
-                    <a class="btn" href="{% url 'pet_new' %}">Добавить питомца</a>
-                </div>
             </div>
-
+            {% endfor %}
     {% endblock %}

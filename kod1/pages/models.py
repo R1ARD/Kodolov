@@ -9,9 +9,11 @@ class CustomUser(AbstractUser):
     last_name = models.CharField(max_length=50, verbose_name='Фамилия', null=True)
     father_name = models.CharField(max_length=50, verbose_name='Отчество', blank=True, null=True)
     phone = models.CharField(max_length=20, verbose_name='Телефон', null=True)
+    specialization = models.CharField(max_length=50, verbose_name='Отчество', blank=True, null=True)
+    education = models.CharField(max_length=50, verbose_name='Отчество', blank=True, null=True)
 
     def __str__(self):
-        return f"{self.first_name} {self.last_name} ({self.username})"
+        return f"{self.last_name}  {self.first_name}"
 
     def get_absolute_url(self):
         return reverse('user_detail', args=[str(self.id)])
@@ -22,7 +24,7 @@ class CustomUser(AbstractUser):
 
 class Medicine(models.Model):
     name = models.CharField(max_length=100, verbose_name='Название лекарства', null=True)
-    description = models.TextField(verbose_name='Описание', blank=True, null=True)
+    description = models.TextField(verbose_name='Описание',  null=True)
 
     def __str__(self):
         return self.name
@@ -33,7 +35,7 @@ class Medicine(models.Model):
 
 class Disease(models.Model):
     name = models.CharField(max_length=100, verbose_name='Название болезни', null=True)
-    description = models.TextField(verbose_name='Описание', blank=True, null=True)
+    description = models.TextField(verbose_name='Описание',  null=True)
     medicines = models.OneToOneField(Medicine, related_name='diseases', blank=True, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -47,12 +49,12 @@ class Disease(models.Model):
 
 
 class Pet(models.Model):
-    name = models.CharField(max_length=50, verbose_name='Имя питомца', null=True)
+    name = models.CharField(max_length=50, verbose_name='Кличка питомца', null=True)
     species = models.CharField(max_length=50, verbose_name='Вид', null=True)
     breed = models.CharField(max_length=50, verbose_name='Порода', blank=True, null=True)
-    birth_date = models.DateField(verbose_name='Дата рождения', blank=True, null=True)
+    birth_date = models.DateField(verbose_name='Дата рождения', null=True)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, limit_choices_to={'is_staff': False}, verbose_name='Владелец', null=True)
-    is_visible = models.BooleanField(default=True, verbose_name='Питомец виден')
+    care_requirements = models.TextField(verbose_name='Требования к уходу', blank=True)
 
     def __str__(self):
         return self.name
@@ -66,7 +68,7 @@ class Pet(models.Model):
 
 class Service(models.Model):
     name = models.CharField(max_length=100, verbose_name='Название услуги')
-    description = models.TextField(verbose_name='Описание', blank=True)
+    description = models.TextField(verbose_name='Описание')
     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Цена')
     is_diagnosis = models.BooleanField(default=False, verbose_name='Является диагнозом')
 
@@ -81,9 +83,9 @@ class Appointment(models.Model):
     pet = models.ForeignKey(Pet, on_delete=models.CASCADE, verbose_name='Питомец', null=True, limit_choices_to={'is_visible': True})
     veterinarian = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, limit_choices_to={'is_staff': True}, verbose_name='Ветеринар', null=True, related_name='veterinarian_appointments')
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, limit_choices_to={'is_staff': False}, verbose_name='Владелец питомца', null=True, related_name='owner_appointments')
-    createDate = models.DateTimeField(verbose_name='Дата отправки заявки', auto_now_add=True, null=True)
+    create_date = models.DateTimeField(verbose_name='Дата отправки заявки', auto_now_add=True, null=True)
     date = models.DateTimeField(verbose_name='Дата и время приема', null=True)
-    notes = models.TextField(verbose_name='Заметки', blank=True, null=True)
+    notes = models.TextField(verbose_name='Дополнительная информация', blank=True, null=True)
     is_processed = models.BooleanField(default=False, verbose_name='Заявка рассмотрена')
     services = models.ManyToManyField(Service, verbose_name='Услуги')
 
@@ -104,7 +106,7 @@ class Diagnosis(models.Model):
     pet = models.ForeignKey(Pet, on_delete=models.CASCADE, verbose_name='Питомец', null=True)
     description = models.TextField(verbose_name='Описание', blank=True, null=True)
     disease = models.ForeignKey(Disease, blank=True, null=True, on_delete=models.CASCADE, verbose_name='Название болезни')
-    createDate = models.DateTimeField(verbose_name='Дата постановки', auto_now_add=True, null=True)
+    create_date = models.DateTimeField(verbose_name='Дата постановки', auto_now_add=True, null=True)
     veterinarian = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='Ветеринар', null=True, related_name='veterinarian_diagnoses')
 
     def get_absolute_url(self):

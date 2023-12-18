@@ -8,7 +8,7 @@ handler403 = permission_denied
 handler404 = page_not_found
 
 urlpatterns = [
-    path('admin/', admin.site.urls, name='admin'),
+    path('admin/', admin.site.urls),
     path('', views.ServiceListView.as_view(), name='home'),
     path('vetKod/', include('pages.urls')),
     path('vetKod/', include('django.contrib.auth.urls')),

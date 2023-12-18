@@ -6,17 +6,35 @@
                 Информация о записи
             </h1>
             <h2>
-                Питомец: {{ appointment.pet }}
+                Питомец
             </h2>
+            <div>
+                Кличка: {{ appointment.pet }}
+            </div>
+            <div>
+                Вид: {{ appointment.pet.species }}
+            </div>
+            <div>
+                Порода: {{ appointment.pet.breed}}
+            </div>
             <h2>
                 Время записи: {{ appointment.date }}
             </h2>
             <h2>
-                 Ветеринар: {{ appointment.veterinarian }}
+                Владелец:
             </h2>
             <div>
-                Владелец:{{ appointment.owner }}
+                 Имя: {{ appointment.owner.first_name }}
             </div>
+            <div>
+                Фамилия: {{ appointment.owner.last_name }}
+            </div>
+            <div>
+                Телефон: {{ appointment.owner.phone }}
+            </div>
+            <h2>
+                 Ветеринар: {{ appointment.veterinarian }}
+            </h2>
             <div>
                     Услуги:
                         <ul>
@@ -24,13 +42,20 @@
                                 <li>{{ service.name }}</li>
                             {% endfor %}
                       </ul>
-                </div>
-            <div>
-                Цена услуг: {{ appointment.total_price }} руб.
             </div>
             <div>
                 {{ appointment.notes }}
             </div>
-            <a href="{% url 'appointment_edit' appointment.pk %}">Редактировать запись</a>
+                            <div>
+                    {% if user.is_staff %}
+                        {% if appointment.has_diagnosis_service %}
+                            <a class="btn" href="{% url 'diagnosis_new' appointment_id=appointment.pk %}">Поставить диагноз и обработать</a>
+                        {% else %}
+                            <a class="btn" href="{% url 'appointment_process' appointment.id %}">Обработать</a>
+                        {% endif %}
+                    {% else %}
+                        <a href="{% url 'appointment_edit' appointment.pk %}">Редактировать запись</a>
+                    {% endif %}
+                </div>
         </div>
     {% endblock content %}

@@ -14,6 +14,7 @@
             <div>
                 {{ pet.owner }}
             </div>
-            <a href="{% url 'pet_edit' pet.pk %}">Редактировать запись</a>
+            <a class="btn" href="{% url 'diagnosis_list' pet_id=pet.id %}">Диагнозы</a>
+            <a class="btn" href="{% url 'pet_edit' pet.pk %}">Изменить питомца</a>
         </div>
     {% endblock content %}

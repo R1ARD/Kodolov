@@ -3,7 +3,7 @@
         <h1>
             Изменить информацию о себе
         </h1>
-        <form action="" method="post">
+        <form class="user-edit" action="" method="post">
             {% csrf_token %}
             {{ form.as_p }}
             <input type="submit" value="Изменить" />

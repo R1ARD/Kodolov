@@ -27,15 +27,20 @@
                 </li>
     {% if user.is_authenticated %}
                 <li>
-                    <a href="{% url 'user_detail' user.pk %}">{{ user }}</a>
+                    <a href="{% url 'user_detail' user.pk %}">Профиль</a>
                 </li>
          {% if user.is_staff %}
                 <li>
                     <a href="{% url 'appointment_list' %}">Ваши приёмы</a>
                 </li>
+                {% if user.is_superuser %}
+                <li>
+                    <a href="{% url 'admin:index' %}">Администрирование</a>
+                </li>
+                {% endif %}
          {% else %}
                 <li>
-                    <a href="{% url 'users_pet_list' %}">Ваши питомцы</a>
+                    <a href="{% url 'pet_list' %}">Ваши питомцы</a>
                 </li>
                 <li>
                     <a href="{% url 'pet_new' %}">Добавить питомца</a>

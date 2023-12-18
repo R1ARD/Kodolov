@@ -8,14 +8,16 @@
             <h2>
                 {{ customuser.last_name }} "{{ customuser.username }}" {{ customuser.first_name }} {{ customuser.father_name }}
             </h2>
-            <h2>
-                {{ customuser.birth_date }}
-            </h2>
             <h3>
                 {{ customuser.phone }}
             </h3>
             {% if not user.is_staff %}
+            <div>
                 <a class="btn" href="{% url 'user_edit' customuser.pk %}">Изменить инфорацию</a>
+            </div>
+            <div>
+                <a class="btn" href="{% url 'password_reset' %}">Изменить пароль</a>
+            </div>
             {% endif %}
 
         </div>

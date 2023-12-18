@@ -147,25 +147,14 @@ def AppointmentProcess(request, pk):
 #Pet
 
 
-class PetListView(LoginRequiredMixin, IsAdminMixin, ListView):
+
+class PetListView(LoginRequiredMixin, ListView):
     model = models.Pet
     template_name = 'pet_list.html'
     login_url = 'login'
 
     def get_queryset(self):
-        queryset = super().get_queryset()
-        query = self.request.GET.get('q')
-        if query:
-            queryset = queryset.filter(Q(name__icontains=query))
-        return queryset
-
-class UsersPetListView(LoginRequiredMixin, ListView):
-    model = models.Pet
-    template_name = 'pet_list.html'
-    login_url = 'login'
-
-    def get_queryset(self):
-        queryset = super().get_queryset().filter(owner=self.request.user, is_visible=True)
+        queryset = super().get_queryset().filter(owner=self.request.user)
         query = self.request.GET.get('pet-search')
         if query:
             queryset = queryset.filter(Q(name__icontains=query))
@@ -189,7 +178,7 @@ class PetCreateView(LoginRequiredMixin, CreateView):
 
 
 
-class PetUpdateView(LoginRequiredMixin, IsAdminMixin, UpdateView):
+class PetUpdateView(LoginRequiredMixin, IsNotStaffMixin, UpdateView):
     model = models.Pet
     template_name = 'pet_edit.html'
     form_class = PetForm

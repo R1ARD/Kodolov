@@ -16,7 +16,7 @@ urlpatterns = [
     path('appointment/new/', views.AppointmentCreateView.as_view(), name='appointment_new'),
     path('appointment/process/<int:pk>/', views.AppointmentProcess, name='appointment_process'),
     #Pet
-    path('pet/', views.UsersPetListView.as_view(), name='users_pet_list'),
+    path('pet/', views.PetListView.as_view(), name='pet_list'),
     path('pet/<int:pk>/edit', views.PetUpdateView.as_view(), name='pet_edit'),
     path('pet/<int:pk>/', views.PetDetailView.as_view(), name='pet_detail'),
     path('pet/new/', views.PetCreateView.as_view(), name='pet_new'),

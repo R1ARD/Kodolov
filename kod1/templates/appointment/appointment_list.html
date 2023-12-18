@@ -36,7 +36,7 @@
                 <div>
                      Создано: {{ appointment.createDate }}
                 </div>
-                <blockquote>
+                <div>
                     {% if user.is_staff %}
                         {% if appointment.has_diagnosis_service %}
                             <a class="btn" href="{% url 'diagnosis_new' appointment_id=appointment.pk %}">Поставить диагноз и обработать</a>
@@ -46,7 +46,7 @@
                     {% else %}
                         <a href="{% url 'appointment_edit' appointment.pk %}">Редактировать запись</a>
                     {% endif %}
-                </blockquote>
+                </div>
 
             </div>
 
