@@ -3,15 +3,37 @@
     {% block content %}
         <div class="appointment-entry">
             <h1>
-                Личный кабинет
+                Профиль
             </h1>
             <h2>
-                {{ customuser.last_name }} "{{ customuser.username }}" {{ customuser.first_name }} {{ customuser.father_name }}
+                 Имя: {{ customuser.first_name }}
             </h2>
-            <h3>
-                {{ customuser.phone }}
-            </h3>
-            {% if not user.is_staff %}
+            <h2>
+                Фамилия: {{ customuser.last_name }}
+            </h2>
+            <div>
+                Отчество: {{ customuser.father_name }}
+            </div>
+            <div>
+                Логин: {{ customuser.username }}
+            </div>
+            <div>
+                Телефон: {{ customuser.phone }}
+            </div>
+            <div>
+                Электронная почта: {{ customuser.email }}
+            </div>
+            <div>
+                Дата регистрации: {{ customuser.date_joined }}
+            </div>
+            {% if user.is_staff %}
+            <div>
+                Специализация: {{ customuser.specialization }}
+            </div>
+            <div>
+                Образование: {{ customuser.education }}
+            </div>
+            {% else %}
             <div>
                 <a class="btn" href="{% url 'user_edit' customuser.pk %}">Изменить инфорацию</a>
             </div>

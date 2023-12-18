@@ -18,7 +18,6 @@
                 </h2>
                 <div>
                     <div>Дата рождения: {{ pet.birth_date }}</div>
-                    <div>Владелец: {{ pet.owner }}</div>
                 </div>
                 <blockquote>
                     <a class="btn" href="{% url 'diagnosis_list' pet_id=pet.id %}">Диагнозы</a>

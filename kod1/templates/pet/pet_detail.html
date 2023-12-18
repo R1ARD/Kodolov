@@ -6,14 +6,17 @@
                 Информация о пациенте
             </h1>
             <h2>
-                {{ pet }} {{ pet.birth_date }}
+                Кличка: {{ pet }}
             </h2>
-            <div>
-                {{ pet.disease }}
-            </div>
-            <div>
-                {{ pet.owner }}
-            </div>
+            <h3>
+                Вид: {{ pet.species }}
+            </h3>
+            <h3>
+                Порода: {{ pet.breed}}
+            </h3>
+            <h3>
+                Дата рождения: {{ pet.birth_date}}
+            </h3>
             <a class="btn" href="{% url 'diagnosis_list' pet_id=pet.id %}">Диагнозы</a>
             <a class="btn" href="{% url 'pet_edit' pet.pk %}">Изменить питомца</a>
         </div>

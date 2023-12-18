@@ -80,7 +80,7 @@ class Service(models.Model):
         verbose_name_plural = 'Услуги'
 
 class Appointment(models.Model):
-    pet = models.ForeignKey(Pet, on_delete=models.CASCADE, verbose_name='Питомец', null=True, limit_choices_to={'is_visible': True})
+    pet = models.ForeignKey(Pet, on_delete=models.CASCADE, verbose_name='Питомец', null=True)
     veterinarian = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, limit_choices_to={'is_staff': True}, verbose_name='Ветеринар', null=True, related_name='veterinarian_appointments')
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, limit_choices_to={'is_staff': False}, verbose_name='Владелец питомца', null=True, related_name='owner_appointments')
     create_date = models.DateTimeField(verbose_name='Дата отправки заявки', auto_now_add=True, null=True)
