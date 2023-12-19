@@ -9,8 +9,8 @@ class CustomUser(AbstractUser):
     last_name = models.CharField(max_length=50, verbose_name='Фамилия', null=True)
     father_name = models.CharField(max_length=50, verbose_name='Отчество', blank=True, null=True)
     phone = models.CharField(max_length=20, verbose_name='Телефон', null=True)
-    specialization = models.CharField(max_length=50, verbose_name='Отчество', blank=True, null=True)
-    education = models.CharField(max_length=50, verbose_name='Отчество', blank=True, null=True)
+    specialization = models.CharField(max_length=50, verbose_name='Специализация', blank=True, null=True)
+    education = models.CharField(max_length=50, verbose_name='Образование', blank=True, null=True)
 
     def __str__(self):
         return f"{self.last_name}  {self.first_name}"
