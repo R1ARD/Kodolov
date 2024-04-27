@@ -52,9 +52,10 @@
                     <a  href="{% url 'appointment_new' %}">Новая заявка</a>
                 </li>
          {% endif %}
-                <li>
-                    <a href="{% url 'logout' %}">Выход</a>
-                </li>
+                <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-success">Выход</button>
+                </form>
     {% else %}
                 <li>
                     <a  href="{% url 'login' %}">Вход</a>
