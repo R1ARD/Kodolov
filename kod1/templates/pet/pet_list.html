@@ -20,7 +20,7 @@
                     <div>Дата рождения: {{ pet.birth_date }}</div>
                 </div>
                 <blockquote>
-                    <a class="btn" href="{% url 'diagnosis_list' pet_id=pet.id %}">Диагнозы</a>
+                    <a class="btn" href="{% url 'conclusion_list' pet_id=pet.id %}">Заключения по приёму</a>
                     <a class="btn" href="{% url 'pet_edit' pet.pk %}">Изменить питомца</a>
                 </blockquote>
             </div>

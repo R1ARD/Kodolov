@@ -1,0 +1,19 @@
+
+{% extends 'base.html' %}
+    {% block content %}
+        <div class="appointment-entry">
+            <h1>
+                Информация о заключении по приёму
+            </h1>
+            <h2>
+                Пациент: {{ conclusion.pet }}
+            </h2>
+            <div>
+                Ветеринар: {{ conclusion.veterinarian }}
+            </div>
+            <div>
+                Описание: {{ conclusion.description }}
+            </p>
+            <a href="{% url 'conclusion_edit' conclusion.pk %}">Редактировать заключение</a>
+        </div>
+    {% endblock content %}

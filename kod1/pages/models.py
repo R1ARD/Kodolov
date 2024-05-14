@@ -46,7 +46,6 @@ class Service(models.Model):
     name = models.CharField(max_length=100, verbose_name='Название услуги')
     description = models.TextField(verbose_name='Описание')
     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Цена')
-    is_diagnosis = models.BooleanField(default=False, verbose_name='Является диагнозом')
 
     def __str__(self):
         return f"{self.name} - {self.price} руб."
@@ -78,18 +77,18 @@ class Appointment(models.Model):
         verbose_name_plural = "Заявления"
 
 
-class Diagnosis(models.Model):
+class Conclusion(models.Model):
     pet = models.ForeignKey(Pet, on_delete=models.CASCADE, verbose_name='Питомец', null=True)
     description = models.TextField(verbose_name='Описание', blank=True, null=True)
     create_date = models.DateTimeField(verbose_name='Дата постановки', auto_now_add=True, null=True)
     veterinarian = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='Ветеринар', null=True, related_name='veterinarian_diagnoses')
 
     def get_absolute_url(self):
-        return reverse('diagnosis_detail', args=[str(self.id)])
+        return reverse('сonclusion_detail', args=[str(self.id)])
 
     def __str__(self):
         return f"{self.create_date} - {self.veterinarian} - {self.pet.name}"
 
     class Meta:
-        verbose_name = "Диагноз"
-        verbose_name_plural = "Диагнозы"
+        verbose_name = "Заключение"
+        verbose_name_plural = "Заключения"

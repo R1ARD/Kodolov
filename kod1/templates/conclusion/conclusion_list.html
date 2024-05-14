@@ -1,19 +1,19 @@
     {% extends 'base.html' %}
     {% block content %}
-        {%for diagnosis in object_list %}
+        {%for conclusion in object_list %}
             <div class="list">
                 <h2>
-                    <a href=" {% url 'diagnosis_detail' diagnosis.pk %}">
+                    <a href=" {% url 'conclusion_detail' conclusion.pk %}">
                         <div>
-                            Питомец: {{ diagnosis.pet }}
+                            Питомец: {{ conclusion.pet }}
                         </div>
                         <div>
-                            Врач: {{ diagnosis.veterinarian}}
+                            Врач: {{ conclusion.veterinarian}}
                         </div>
                     </a>
                 </h2>
                 <div>
-                     Создано: {{ diagnosis.create_date }}
+                     Создано: {{ conclusion.create_date }}
                 </div>
             </div>
         {% endfor %}

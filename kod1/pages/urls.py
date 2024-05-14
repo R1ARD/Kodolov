@@ -20,9 +20,9 @@ urlpatterns = [
     path('pet/<int:pk>/edit', views.PetUpdateView.as_view(), name='pet_edit'),
     path('pet/<int:pk>/', views.PetDetailView.as_view(), name='pet_detail'),
     path('pet/new/', views.PetCreateView.as_view(), name='pet_new'),
-    #Diagnosis
-    path('pet/diagnoses/<int:pet_id>/', views.DiagnosisListView.as_view(), name='diagnosis_list'),
-    path('diagnosis/create/<int:appointment_id>/', views.DiagnosisCreateView.as_view(), name='diagnosis_new'),
-    path('diagnosis/<int:pk>/', views.DiagnosisDetailView.as_view(), name='diagnosis_detail'),
-    path('diagnosis/<int:pk>/edit', views.DiagnosisUpdateView.as_view(), name='diagnosis_edit'),
+    #Conclusio
+    path('pet/conclusions/<int:pet_id>/', views.ConclusionListView.as_view(), name='conclusion_list'),
+    path('conclusion/create/<int:appointment_id>/', views.ConclusionCreateView.as_view(), name='conclusion_new'),
+    path('conclusion/<int:pk>/', views.ConclusionDetailView.as_view(), name='conclusion_detail'),
+    path('conclusion/<int:pk>/edit', views.ConclusionUpdateView.as_view(), name='conclusion_edit'),
 ]

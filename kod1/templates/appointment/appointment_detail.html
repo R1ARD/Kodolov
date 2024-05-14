@@ -1,64 +1,59 @@
-
 {% extends 'base.html' %}
-    {% block content %}
-        <div class="appointment-entry">
-            <h1>
-                Информация о записи
-            </h1>
-            <h2>
-                Питомец
-            </h2>
-            <div>
-                Кличка: {{ appointment.pet }}
-            </div>
-            <div>
-                Вид: {{ appointment.pet.species }}
-            </div>
-            <div>
-                Порода: {{ appointment.pet.breed}}
-            </div>
-            <div>
-                Дата рождения: {{ appointment.pet.birth_date}}
-            </div>
-            <h2>
-                Время записи: {{ appointment.date }}
-            </h2>
-            <h2>
-                Владелец:
-            </h2>
-            <div>
-                 Имя: {{ appointment.owner.first_name }}
-            </div>
-            <div>
-                Фамилия: {{ appointment.owner.last_name }}
-            </div>
-            <div>
-                Телефон: {{ appointment.owner.phone }}
-            </div>
-            <h2>
-                 Ветеринар: {{ appointment.veterinarian }}
-            </h2>
-            <div>
-                    Услуги:
-                        <ul>
-                            {% for service in appointment.services.all %}
-                                <li>{{ service.name }}</li>
-                            {% endfor %}
-                      </ul>
-            </div>
-            <div>
-                {{ appointment.notes }}
-            </div>
-                            <div>
-                    {% if user.is_staff %}
-                        {% if appointment.has_diagnosis_service %}
-                            <a class="btn" href="{% url 'diagnosis_new' appointment_id=appointment.pk %}">Поставить диагноз и обработать</a>
-                        {% else %}
-                            <a class="btn" href="{% url 'appointment_process' appointment.id %}">Обработать</a>
-                        {% endif %}
-                    {% else %}
-                        <a href="{% url 'appointment_edit' appointment.pk %}">Редактировать запись</a>
-                    {% endif %}
-                </div>
-        </div>
-    {% endblock content %}
+{% block content %}
+<div class="appointment-entry">
+    <h1>
+        Информация о записи
+    </h1>
+    <h2>
+        Питомец
+    </h2>
+    <div>
+        Кличка: {{ appointment.pet }}
+    </div>
+    <div>
+        Вид: {{ appointment.pet.species }}
+    </div>
+    <div>
+        Порода: {{ appointment.pet.breed}}
+    </div>
+    <div>
+        Дата рождения: {{ appointment.pet.birth_date}}
+    </div>
+    <h2>
+        Время записи: {{ appointment.date }}
+    </h2>
+    <h2>
+        Владелец:
+    </h2>
+    <div>
+        Имя: {{ appointment.owner.first_name }}
+    </div>
+    <div>
+        Фамилия: {{ appointment.owner.last_name }}
+    </div>
+    <div>
+        Телефон: {{ appointment.owner.phone }}
+    </div>
+    <h2>
+        Ветеринар: {{ appointment.veterinarian }}
+    </h2>
+    <div>
+        Услуги:
+        <ul>
+            {% for service in appointment.services.all %}
+            <li>{{ service.name }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div>
+        {{ appointment.notes }}
+    </div>
+    <div>
+        {% if user.is_staff %}
+            <a class="btn" href="{% url 'appointment_process' appointment.id %}">Обработать</a>
+        {% else %}
+            <a href="{% url 'appointment_edit' appointment.pk %}">Редактировать запись</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock content %}

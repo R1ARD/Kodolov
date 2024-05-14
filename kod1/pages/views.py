@@ -87,13 +87,6 @@ class AppointmentListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
 
-        # Аннотация для проверки наличия услуги с is_diagnosis=True
-        diagnosis_service_exists = models.Service.objects.filter(
-            appointment=OuterRef('pk'),
-            is_diagnosis=True
-        )
-        queryset = queryset.annotate(has_diagnosis_service=Exists(diagnosis_service_exists))
-
         # Проверяем, является ли пользователь ветеринаром (пример: по атрибуту is_staff)
         if self.request.user.is_staff:
             queryset = queryset.filter(veterinarian=self.request.user, is_processed=False)
@@ -152,7 +145,7 @@ class AppointmentCreateView(LoginRequiredMixin, IsNotStaffMixin, CreateView):
 class AppointmentUpdateView(LoginRequiredMixin, IsOwnerOrAdminMixin, UpdateView):
     model = models.Appointment
     form_class = AppointmentForm
-    template_name = 'diagnosis_edit.html'
+    template_name = 'conclusion_edit.html'
     login_url = 'login'
 
 
@@ -233,12 +226,12 @@ class UserUpdateView(LoginRequiredMixin, UserIsUserMixin, UpdateView):
     template_name = 'user_edit.html'
     login_url = 'login'
 
-#Diagnosis
+#Conclusion
 
-class DiagnosisCreateView(LoginRequiredMixin, IsAdminMixin, CreateView):
-    model = models.Diagnosis
+class ConclusionCreateView(LoginRequiredMixin, IsAdminMixin, CreateView):
+    model = models.Conclusion
     fields = ['description']
-    template_name = 'diagnosis_new.html'
+    template_name = 'conclusion_new.html'
 
     def form_valid(self, form):
         # Получение записи на прием и установка питомца с ветеринаром
@@ -250,27 +243,27 @@ class DiagnosisCreateView(LoginRequiredMixin, IsAdminMixin, CreateView):
         appointment.save()
         return super().form_valid(form)
 
-class DiagnosisDetailView(LoginRequiredMixin, DetailView):
-    model = models.Diagnosis
-    template_name = 'diagnosis_detail.html'
+class ConclusionDetailView(LoginRequiredMixin, DetailView):
+    model = models.Conclusion
+    template_name = 'conclusion_detail.html'
     login_url = 'login'
 
-class DiagnosisUpdateView(LoginRequiredMixin, UserIsUserMixin, UpdateView):
-    model = models.Diagnosis
+class ConclusionUpdateView(LoginRequiredMixin, UserIsUserMixin, UpdateView):
+    model = models.Conclusion
     fields = ['description']
-    template_name = 'diagnosis_edit.html'
+    template_name = 'conclusion_edit.html'
     login_url = 'login'
 
-class DiagnosisListView(ListView):
-    model = models.Diagnosis
-    template_name = 'diagnosis_list.html'  # укажите путь к вашему шаблону
+class ConclusionListView(ListView):
+    model = models.Conclusion
+    template_name = 'conclusion_list.html'  # укажите путь к вашему шаблону
 
     def get_queryset(self):
         """
         Переопределение queryset для фильтрации диагнозов по питомцу.
         """
         pet_id = self.kwargs.get('pet_id')
-        return models.Diagnosis.objects.filter(pet__id=pet_id)
+        return models.Conclusion.objects.filter(pet__id=pet_id)
 
 #Service
 
