@@ -260,7 +260,7 @@ class ConclusionListView(ListView):
 
     def get_queryset(self):
         """
-        Переопределение queryset для фильтрации диагнозов по питомцу.
+        Переопределение queryset для фильтрации заключений по приёму по питомцу.
         """
         pet_id = self.kwargs.get('pet_id')
         return models.Conclusion.objects.filter(pet__id=pet_id)
