@@ -6,6 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.exceptions import PermissionDenied
 from django.db.models import Q, Sum, Exists, OuterRef
 from django.contrib.auth import get_user_model
+from datetime import timedelta, date
 from django.views import View
 
 from .forms import CustomUserCreationForm, CustomUserChangeForm, PetForm, AppointmentForm
@@ -15,6 +16,33 @@ from django.http import HttpResponse
 
 def homePageView(request):
     return render(request, "home.html")
+
+def get_statistics(request):
+    today = date.today()
+    month_ago = today - timedelta(days=30)
+    quarter_ago = today - timedelta(days=90)
+    year_ago = today - timedelta(days=365)
+
+    # Функция для подсчета статистики за определенный период
+    def calculate_stats(start_date):
+        return models.Appointment.objects.filter(
+            is_processed=True,
+            date__gte=start_date,
+            date__lte=today
+        ).aggregate(
+            total=Sum('services__price')
+        )['total'] or 0  # Возвращаем 0, если нет данных
+
+    month_total = calculate_stats(month_ago)
+    quarter_total = calculate_stats(quarter_ago)
+    year_total = calculate_stats(year_ago)
+
+    context = {
+        'month_total': month_total,
+        'quarter_total': quarter_total,
+        'year_total': year_total
+    }
+    return render(request, 'statistics.html', context)
 
 
 class IsOwnerOrAdminMixin(UserPassesTestMixin):
@@ -209,7 +237,7 @@ class UserUpdateView(LoginRequiredMixin, UserIsUserMixin, UpdateView):
 
 class DiagnosisCreateView(LoginRequiredMixin, IsAdminMixin, CreateView):
     model = models.Diagnosis
-    fields = [ 'disease', 'description']
+    fields = ['description']
     template_name = 'diagnosis_new.html'
 
     def form_valid(self, form):
@@ -229,7 +257,7 @@ class DiagnosisDetailView(LoginRequiredMixin, DetailView):
 
 class DiagnosisUpdateView(LoginRequiredMixin, UserIsUserMixin, UpdateView):
     model = models.Diagnosis
-    fields = ['disease', 'description']
+    fields = ['description']
     template_name = 'diagnosis_edit.html'
     login_url = 'login'
 

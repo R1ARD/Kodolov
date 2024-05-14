@@ -37,6 +37,9 @@
                 <li>
                     <a href="{% url 'admin:index' %}">Администрирование</a>
                 </li>
+                <li>
+                    <a href="{% url 'statistics' %}">statistics</a>
+                </li>
                 {% endif %}
          {% else %}
                 <li>
@@ -52,9 +55,9 @@
                     <a  href="{% url 'appointment_new' %}">Новая заявка</a>
                 </li>
          {% endif %}
-                <form action="{% url 'logout' %}" method="post">
+                <form style="margin-bottom: 0;" action="{% url 'logout' %}" method="post">
                     {% csrf_token %}
-                    <button type="submit" class="btn btn-success">Выход</button>
+                    <button type="submit" class="logout">Выход</button>
                 </form>
     {% else %}
                 <li>

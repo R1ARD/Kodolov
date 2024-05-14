@@ -10,7 +10,6 @@ class CustomUser(AbstractUser):
     father_name = models.CharField(max_length=50, verbose_name='Отчество', blank=True, null=True)
     phone = models.CharField(max_length=20, verbose_name='Телефон', null=True)
     specialization = models.CharField(max_length=50, verbose_name='Специализация', blank=True, null=True)
-    education = models.CharField(max_length=50, verbose_name='Образование', blank=True, null=True)
 
     def __str__(self):
         return f"{self.last_name}  {self.first_name}"
@@ -21,29 +20,6 @@ class CustomUser(AbstractUser):
     class Meta:
         verbose_name = "Пользователь"
         verbose_name_plural = "Пользователи"
-
-class Medicine(models.Model):
-    name = models.CharField(max_length=100, verbose_name='Название лекарства', null=True)
-    description = models.TextField(verbose_name='Описание',  null=True)
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name = "Лекарство"
-        verbose_name_plural = "Лекарства"
-
-class Disease(models.Model):
-    name = models.CharField(max_length=100, verbose_name='Название болезни', null=True)
-    description = models.TextField(verbose_name='Описание',  null=True)
-    medicines = models.OneToOneField(Medicine, related_name='diseases', blank=True, null=True, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name = "Болезнь"
-        verbose_name_plural = "Болезни"
 
 
 
@@ -105,7 +81,6 @@ class Appointment(models.Model):
 class Diagnosis(models.Model):
     pet = models.ForeignKey(Pet, on_delete=models.CASCADE, verbose_name='Питомец', null=True)
     description = models.TextField(verbose_name='Описание', blank=True, null=True)
-    disease = models.ForeignKey(Disease, blank=True, null=True, on_delete=models.CASCADE, verbose_name='Название болезни')
     create_date = models.DateTimeField(verbose_name='Дата постановки', auto_now_add=True, null=True)
     veterinarian = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='Ветеринар', null=True, related_name='veterinarian_diagnoses')
 
@@ -113,7 +88,7 @@ class Diagnosis(models.Model):
         return reverse('diagnosis_detail', args=[str(self.id)])
 
     def __str__(self):
-        return f"{self.pet.name} -> {self.disease.name}"
+        return f"{self.create_date} - {self.veterinarian} - {self.pet.name}"
 
     class Meta:
         verbose_name = "Диагноз"

@@ -27,12 +27,12 @@
                 Дата регистрации: {{ customuser.date_joined }}
             </div>
             {% if user.is_staff %}
-            <div>
-                Специализация: {{ customuser.specialization }}
-            </div>
-            <div>
-                Образование: {{ customuser.education }}
-            </div>
+                <div>
+                    Специализация: {{ customuser.specialization }}
+                </div>
+                <div>
+                    Образование: {{ customuser.education }}
+                </div>
             {% else %}
             <div>
                 <a class="btn" href="{% url 'user_edit' customuser.pk %}">Изменить инфорацию</a>

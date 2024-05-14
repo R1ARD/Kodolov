@@ -276,7 +276,7 @@ tr:nth-child(even) {
   /* Home section */
   #home {
     text-align: center;
-    padding: 100px 0;
+    padding: 50px 0;
   }
 
   #home h1 {
@@ -296,6 +296,23 @@ tr:nth-child(even) {
     text-decoration: none;
     border-radius: 5px;
   }
+
+  .logout {
+    background: none;
+    color: #ffffff; /* Цвет текста кнопки, чтобы совпадать со ссылками */
+    border: none;
+    padding: 0;
+    box-shadow: none;
+    font: inherit; /* Чтобы текст кнопки выглядел так же, как и текст в ссылках */
+    cursor: pointer;
+    display: inline; /* Делает кнопку визуально похожей на ссылку */
+    text-align: left;
+    text-decoration: none;
+}
+
+.logout:hover {
+    background-color:#a1cba1; 
+}
 
 
 
