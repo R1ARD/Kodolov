@@ -47,34 +47,3 @@ class AppointmentForm(forms.ModelForm):
             'date': forms.DateTimeInput(attrs={'type': 'datetime-local', 'required': 'required', 'step': 1800}, format='%Y-%m-%d %H:%M')
         }
 
-    def clean(self):
-        cleaned_data = super().clean()
-
-        # Получение уже занятых временных слотов только для данного ветеринара
-        now = timezone.localtime()
-
-        start_time = datetime.time(8, 0)
-        existing_appointments = Appointment.objects.filter(
-            date__date=now.date(),
-            date__gte=now,
-            veterinarian=cleaned_data.get('veterinarian')
-        ).values_list('date', flat=True)
-
-        # Фильтруйте занятые временные слоты
-        exclude_times = existing_appointments
-
-        date = cleaned_data.get('date')
-        if date:
-            if date.time() < datetime.time(8, 0) or date.time() > datetime.time(21, 0):
-                self.add_error('date', "Выбранное время вне рабочих часов.")
-
-            if date in exclude_times:
-                self.add_error('date', "Это время уже занято.")
-
-            # Проверка на то, что дата записи не в прошлом
-            if date < timezone.now():
-                self.add_error('date', "Дата записи не может быть в прошлом.")
-
-            if date.minute not in [0, 30]:
-                self.add_error('date', "Время должно быть выбрано с шагом в 30 минут.")
-
