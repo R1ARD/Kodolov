@@ -1,11 +1,25 @@
     {% extends 'base.html' %}
     {% block content %}
-        <h1>
-            Заключение по приёму
-        </h1>
-        <form action="" method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <input type="submit" value="Обработать" />
-        </form>
+<body>
+    <h1>Создать Заключение</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Сохранить</button>
+    </form>
+    <button onclick="printContent()">Печать</button>
+    <script>
+        CKEDITOR.replace('id_description');
+        function printContent() {
+            var content = CKEDITOR.instances.id_description.getData();
+            var printWindow = window.open('', '', 'height=600,width=800');
+            printWindow.document.write('<html><head><title>Печать</title>');
+            printWindow.document.write('</head><body>');
+            printWindow.document.write(content);
+            printWindow.document.write('</body></html>');
+            printWindow.document.close();
+            printWindow.print();
+        }
+    </script>
+</body>
     {% endblock %}

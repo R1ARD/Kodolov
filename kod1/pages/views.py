@@ -9,7 +9,7 @@ from django.contrib.auth import get_user_model
 from datetime import timedelta, date
 from django.views import View
 
-from .forms import CustomUserCreationForm, CustomUserChangeForm, PetForm, AppointmentForm
+from .forms import CustomUserCreationForm, CustomUserChangeForm, PetForm, AppointmentForm, ConclusionForm
 from . import models
 # Create your views here.
 from django.http import HttpResponse
@@ -245,8 +245,8 @@ class UserUpdateView(LoginRequiredMixin, UserIsUserMixin, UpdateView):
 
 class ConclusionCreateView(LoginRequiredMixin, IsAdminMixin, CreateView):
     model = models.Conclusion
-    fields = ['description']
     template_name = 'conclusion_new.html'
+    form_class = ConclusionForm
 
     def form_valid(self, form):
         # Получение записи на прием и установка питомца с ветеринаром
@@ -266,7 +266,7 @@ class ConclusionDetailView(LoginRequiredMixin, DetailView):
 
 class ConclusionUpdateView(LoginRequiredMixin, UserIsUserMixin, UpdateView):
     model = models.Conclusion
-    fields = ['description']
+    form_class = ConclusionForm
     template_name = 'conclusion_edit.html'
     login_url = 'login'
 

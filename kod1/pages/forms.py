@@ -1,10 +1,10 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from .models import CustomUser, Pet, Appointment
+from .models import CustomUser, Pet, Appointment, Conclusion
 from django.core.exceptions import ValidationError
 from django.utils import timezone
 from datetime import date, time
-
+from ckeditor.widgets import CKEditorWidget
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -57,3 +57,10 @@ class AppointmentForm(forms.ModelForm):
         if user and user.is_superuser:
             # Убираем поле 'pet' для суперпользователя
             self.fields.pop('pet')
+
+class ConclusionForm(forms.ModelForm):
+    description = forms.CharField(widget=CKEditorWidget(), label='Описание')
+
+    class Meta:
+        model = Conclusion
+        fields = ['description']
