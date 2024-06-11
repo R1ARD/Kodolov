@@ -2,6 +2,8 @@ from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import AbstractUser
 from django.conf import settings
+from django.core.exceptions import ValidationError
+from ckeditor.fields import RichTextField
 
 
 class CustomUser(AbstractUser):
@@ -56,21 +58,27 @@ class Service(models.Model):
 
 class Appointment(models.Model):
     pet = models.ForeignKey(Pet, on_delete=models.CASCADE, verbose_name='Питомец', null=True)
-    veterinarian = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, limit_choices_to={'is_staff': True}, verbose_name='Ветеринар', null=True, related_name='veterinarian_appointments')
+    veterinarian = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, limit_choices_to={'is_staff': True, 'is_superuser': False}, verbose_name='Ветеринар', null=True, related_name='veterinarian_appointments')
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, limit_choices_to={'is_staff': False}, verbose_name='Владелец питомца', null=True, related_name='owner_appointments')
     create_date = models.DateTimeField(verbose_name='Дата отправки заявки', auto_now_add=True, null=True)
-    date = models.DateTimeField(verbose_name='Дата и время приема', null=True)
+    date = models.DateField(verbose_name='Дата приема', null=True)
+    time = models.TimeField(verbose_name='Время приема', null=True)
     notes = models.TextField(verbose_name='Дополнительная информация', blank=True, null=True)
     is_processed = models.BooleanField(default=False, verbose_name='Заявка рассмотрена')
     services = models.ManyToManyField(Service, verbose_name='Услуги')
 
-
-
     def __str__(self):
-        return f"{self.owner.first_name}'s {self.pet.name} -> {self.veterinarian.first_name} : {self.date}"
+        if(self.owner and self.pet):
+            return f"{self.owner.first_name}'s {self.pet.name} -> {self.veterinarian.last_name} {self.veterinarian.first_name} : {self.date} {self.time}"
+        else:
+            return f"{self.notes} -> {self.veterinarian.last_name} {self.veterinarian.first_name} : {self.date} {self.time}"
 
     def get_absolute_url(self):
         return reverse('appointment_detail', args=[str(self.id)])
+
+    def clean(self):
+        if Appointment.objects.filter(date=self.date, time=self.time, veterinarian=self.veterinarian).exists():
+            raise ValidationError(f'Время {self.time} на дату {self.date} уже занято.')
 
     class Meta:
         verbose_name = "Заявление"
@@ -79,12 +87,12 @@ class Appointment(models.Model):
 
 class Conclusion(models.Model):
     pet = models.ForeignKey(Pet, on_delete=models.CASCADE, verbose_name='Питомец', null=True)
-    description = models.TextField(verbose_name='Описание', blank=True, null=True)
+    description = RichTextField(verbose_name='Описание', blank=True, null=True)
     create_date = models.DateTimeField(verbose_name='Дата постановки', auto_now_add=True, null=True)
     veterinarian = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='Ветеринар', null=True, related_name='veterinarian_diagnoses')
 
     def get_absolute_url(self):
-        return reverse('сonclusion_detail', args=[str(self.id)])
+        return reverse('conclusion_detail', args=[str(self.id)])
 
     def __str__(self):
         return f"{self.create_date} - {self.veterinarian} - {self.pet.name}"

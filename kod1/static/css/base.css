@@ -410,6 +410,14 @@ tr:nth-child(even) {
     font-stretch: expanded;
     margin: 20px
 }
+.errorlist {
+    color: red;
+}
+
+.form-check-input{
+    padding: 0px 30%;
+
+}
 
 .user-edit > .helptext {
     visibility: hidden;

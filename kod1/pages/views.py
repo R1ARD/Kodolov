@@ -3,7 +3,7 @@ from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.core.exceptions import PermissionDenied
+from django.core.exceptions import PermissionDenied, ValidationError
 from django.db.models import Q, Sum, Exists, OuterRef
 from django.contrib.auth import get_user_model
 from datetime import timedelta, date
@@ -126,26 +126,41 @@ class AppointmentDetailView(LoginRequiredMixin, DetailView):
         return context
 
 
-class AppointmentCreateView(LoginRequiredMixin, IsNotStaffMixin, CreateView):
+class AppointmentCreateView(LoginRequiredMixin, CreateView):
     model = models.Appointment
     template_name = 'appointment_new.html'
     form_class = AppointmentForm
     login_url = 'login'
 
     def get_form(self, form_class=None):
-        form = super().get_form(form_class)
-        form.fields['pet'].queryset = models.Pet.objects.filter(owner=self.request.user)
+        form_class = self.get_form_class()
+        form = form_class(user=self.request.user, **self.get_form_kwargs())
+        if not self.request.user.is_superuser:
+            form.fields['pet'].queryset = models.Pet.objects.filter(owner=self.request.user)
+        else:
+            form.fields.pop('pet', None)
         return form
 
     def form_valid(self, form):
-        form.instance.owner = self.request.user
+        if not self.request.user.is_superuser:
+            form.instance.owner = self.request.user
+            try:
+                self.validate_appointment(form.instance)
+                return super().form_valid(form)
+            except ValidationError as e:
+                form.add_error(None, e)
+                return self.form_invalid(form)
         return super().form_valid(form)
+
+    def validate_appointment(self, instance):
+        if models.Appointment.objects.filter(date=instance.date, time=instance.time, veterinarian=instance.veterinarian).exists():
+            raise ValidationError(f'Время {instance.time} на дату {instance.date} уже занято.')
 
 
 class AppointmentUpdateView(LoginRequiredMixin, IsOwnerOrAdminMixin, UpdateView):
     model = models.Appointment
     form_class = AppointmentForm
-    template_name = 'conclusion_edit.html'
+    template_name = 'appointment_edit.html'
     login_url = 'login'
 
 
@@ -236,7 +251,8 @@ class ConclusionCreateView(LoginRequiredMixin, IsAdminMixin, CreateView):
     def form_valid(self, form):
         # Получение записи на прием и установка питомца с ветеринаром
         appointment = get_object_or_404(models.Appointment, pk=self.kwargs['appointment_id'])
-        form.instance.pet = appointment.pet
+        if appointment.pet:
+            form.instance.pet = appointment.pet
         form.instance.veterinarian = appointment.veterinarian
         # Обновление записи на прием как обработанной
         appointment.is_processed = True

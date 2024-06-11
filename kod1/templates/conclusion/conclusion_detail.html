@@ -5,15 +5,17 @@
             <h1>
                 Информация о заключении по приёму
             </h1>
-            <h2>
-                Пациент: {{ conclusion.pet }}
-            </h2>
+            {% if conclusion.pet %}
+                <h2>
+                    Пациент: {{ conclusion.pet }}
+                </h2>
+            {% endif %}
             <div>
                 Ветеринар: {{ conclusion.veterinarian }}
             </div>
             <div>
                 Описание: {{ conclusion.description }}
-            </p>
-            <a href="{% url 'conclusion_edit' conclusion.pk %}">Редактировать заключение</a>
+            </div>
+            <a class="btn" href="{% url 'conclusion_edit' conclusion.pk %}">Редактировать заключение</a>
         </div>
     {% endblock content %}

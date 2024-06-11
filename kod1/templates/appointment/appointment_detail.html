@@ -4,36 +4,44 @@
     <h1>
         Информация о записи
     </h1>
+
+    {% if appointment.pet %}
+        <h2>
+            Питомец
+        </h2>
+        <div>
+            Кличка: {{ appointment.pet }}
+        </div>
+        <div>
+            Вид: {{ appointment.pet.species }}
+        </div>
+        <div>
+            Порода: {{ appointment.pet.breed}}
+        </div>
+        <div>
+            Дата рождения: {{ appointment.pet.birth_date}}
+        </div>
+    {% endif %}
+
     <h2>
-        Питомец
+        Время записи: {{ appointment.date }} {{ appointment.time }}
     </h2>
-    <div>
-        Кличка: {{ appointment.pet }}
-    </div>
-    <div>
-        Вид: {{ appointment.pet.species }}
-    </div>
-    <div>
-        Порода: {{ appointment.pet.breed}}
-    </div>
-    <div>
-        Дата рождения: {{ appointment.pet.birth_date}}
-    </div>
-    <h2>
-        Время записи: {{ appointment.date }}
-    </h2>
-    <h2>
-        Владелец:
-    </h2>
-    <div>
-        Имя: {{ appointment.owner.first_name }}
-    </div>
-    <div>
-        Фамилия: {{ appointment.owner.last_name }}
-    </div>
-    <div>
-        Телефон: {{ appointment.owner.phone }}
-    </div>
+
+    {% if appointment.owner %}
+        <h2>
+            Владелец:
+        </h2>
+        <div>
+            Имя: {{ appointment.owner.first_name }}
+        </div>
+        <div>
+            Фамилия: {{ appointment.owner.last_name }}
+        </div>
+        <div>
+            Телефон: {{ appointment.owner.phone }}
+        </div>
+    {% endif %}
+
     <h2>
         Ветеринар: {{ appointment.veterinarian }}
     </h2>

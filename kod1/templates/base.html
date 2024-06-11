@@ -9,39 +9,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-
-
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 
 </head>
 <body>
-    <header>
-        <nav>
-
-            <ul>
-                <li>
-                    <a href="{% url 'home' %}">
-                        <img class="logo" src="{% static 'image/logo.svg' %}">
-                    </a>
-                </li>
-    {% if user.is_authenticated %}
+<header>
+    <nav>
+        <ul>
+            <li>
+                <a href="{% url 'home' %}">
+                    <img class="logo" src="{% static 'image/logo.svg' %}">
+                </a>
+            </li>
+            {% if user.is_authenticated %}
                 <li>
                     <a href="{% url 'user_detail' user.pk %}">{{ user }}</a>
                 </li>
-         {% if user.is_staff %}
+            {% if user.is_staff %}
                 <li>
                     <a href="{% url 'appointment_list' %}">Ваши приёмы</a>
                 </li>
-                {% if user.is_superuser %}
+            {% if user.is_superuser %}
                 <li>
                     <a href="{% url 'admin:index' %}">Администрирование</a>
                 </li>
                 <li>
-                    <a href="{% url 'statistics' %}">statistics</a>
+                    <a href="{% url 'statistics' %}">Статистика</a>
                 </li>
-                {% endif %}
-         {% else %}
+                <li>
+                    <a href="{% url 'appointment_new' %}">Новая заявка</a>
+                </li>
+            {% endif %}
+            {% else %}
                 <li>
                     <a href="{% url 'pet_list' %}">Ваши питомцы</a>
                 </li>
@@ -52,26 +52,26 @@
                     <a href="{% url 'appointment_list' %}">Ваши заявки</a>
                 </li>
                 <li>
-                    <a  href="{% url 'appointment_new' %}">Новая заявка</a>
+                    <a href="{% url 'appointment_new' %}">Новая заявка</a>
                 </li>
-         {% endif %}
+            {% endif %}
                 <form style="margin-bottom: 0;" action="{% url 'logout' %}" method="post">
                     {% csrf_token %}
                     <button type="submit" class="logout">Выход</button>
                 </form>
-    {% else %}
+            {% else %}
                 <li>
-                    <a  href="{% url 'login' %}">Вход</a>
+                    <a href="{% url 'login' %}">Вход</a>
                 </li>
                 <li>
                     <a href="{% url 'signup' %}">Регистрация</a>
                 </li>
-    {% endif %}
-            </ul>
-        </nav>
-    </header>
-        {% block content %}
-        {% endblock content %}
+            {% endif %}
+        </ul>
+    </nav>
+</header>
+{% block content %}
+{% endblock content %}
 
 </body>
 </html>

@@ -31,6 +31,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'ckeditor',
+    'ckeditor_uploader',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -67,6 +69,8 @@ TEMPLATES = [
         },
     },
 ]
+
+CKEDITOR_UPLOAD_PATH = "uploads/"
 
 WSGI_APPLICATION = 'kod1.wsgi.application'
 

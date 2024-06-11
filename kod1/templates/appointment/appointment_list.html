@@ -6,22 +6,27 @@
     </form>
         {%for appointment in object_list %}
             <div class="list">
-                <h2>
-                    <a href=" {% url 'appointment_detail' appointment.pk %}">
-                        <div>
-                            Питомец: {{ appointment.pet }}
-                        </div>
-                        <div>
-                            Дата приёма: {{ appointment.date }}
-                        </div>
-                        <div>
-                            Врач: {{ appointment.veterinarian}}
-                        </div>
-                    </a>
-                </h2>
-                <div>
-                    Владелец: {{ appointment.owner }}
-                </div>
+
+                    <h2>
+                        <a href=" {% url 'appointment_detail' appointment.pk %}">
+                            {% if appointment.pet %}
+                                <div>
+                                    Питомец: {{ appointment.pet }}
+                                </div>
+                            {% endif %}
+                            <div>
+                                Дата приёма:  {{ appointment.date }} {{ appointment.time }}
+                            </div>
+                            <div>
+                                Врач: {{ appointment.veterinarian}}
+                            </div>
+                        </a>
+                    </h2>
+                {% if appointment.owner %}
+                    <div>
+                        Владелец: {{ appointment.owner }}
+                    </div>
+                {% endif %}
                 <div>
                     Услуги:
                         <ul>
