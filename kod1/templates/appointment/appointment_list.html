@@ -45,7 +45,7 @@
                     {% if user.is_staff %}
                             <a class="btn" href="{% url 'conclusion_new' appointment_id=appointment.pk %}">Обработать заявку</a>
                     {% else %}
-                        <a href="{% url 'appointment_edit' appointment.pk %}">Редактировать запись</a>
+                        <a class="btn" href="{% url 'appointment_edit' appointment.pk %}">Редактировать запись</a>
                     {% endif %}
                 </div>
 
